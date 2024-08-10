@@ -28,7 +28,7 @@ export default function() {
 						const modules = modulesStr
 							.split(",")
 							.map(m => m.trim())
-							.filter(m => !m.startsWith("type"));
+							.filter(m => !!m && !m.startsWith("type"));
 						return modules
 							.map(m => {
 								const dashedModule = m.replace(
