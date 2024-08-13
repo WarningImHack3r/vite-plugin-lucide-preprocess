@@ -1,15 +1,21 @@
 const ignoredPaths = ["/node_modules/", "/.svelte-kit/"];
 
 /**
- * Converts a raw string of imported icons to a list of module names
+ * Converts a raw string of imported icons to a list of module names,
+ * and a list of TypeScript types
  * @param rawModules {string} The raw string of imported icons
- * @return {string[]} The list of imported icon
+ * @return {[string[], string[]]} A list containing a list of imported icons,
+ * and a list of TypeScript types
  */
-export function rawModulesToModulesList(rawModules) {
-	return rawModules
+export function rawModulesToLists(rawModules) {
+	const raw = rawModules
 		.split(",")
 		.map(m => m.trim())
-		.filter(m => !!m && !m.startsWith("type"));
+		.filter(m => !!m);
+	return [
+		raw.filter(m => !m.startsWith("type ")),
+		raw.filter(m => m.startsWith("type ")).map(m => m.slice(5))
+	];
 }
 
 /**
@@ -21,6 +27,8 @@ export function rawModulesToModulesList(rawModules) {
 export function iconCompToDashed(component) {
 	return (
 		component
+			.split(" ")[0] // take only the first part if there's an alias
+			// transform "IconComp" to "icon-comp"
 			.replace(/[A-Z\d]/g, (match, offset) => (offset > 0 ? "-" : "") + match.toLowerCase())
 			// fix for NxN icons
 			.replace(/(\d)x-(\d)/, (_, a, b) => `${a}x${b}`)
@@ -55,12 +63,20 @@ export const plugin = () => ({
 				 * @return The optimized import statement(s)
 				 */
 				(_, initialSpacing, modulesStr, quote, framework, lineEnding) => {
-					return rawModulesToModulesList(modulesStr)
+					const [modules, types] = rawModulesToLists(modulesStr);
+					const moduleImports = modules
 						.map(
 							m =>
 								`${initialSpacing}import ${m} from ${quote}lucide-${framework}/icons/${iconCompToDashed(m)}${quote}${lineEnding.trimEnd()}`
 						)
-						.join("\n");
+						.join(initialSpacing.includes("\n") ? "" : "\n");
+					const typesImport = `${initialSpacing}import type { ${types.join(", ")} } from ${quote}lucide-${framework}${quote}${lineEnding.trimEnd()}`;
+					return [
+						types.length ? typesImport : undefined,
+						modules.length ? moduleImports : undefined
+					]
+						.filter(Boolean)
+						.join(initialSpacing.includes("\n") ? "" : "\n");
 				}
 			)
 		};
