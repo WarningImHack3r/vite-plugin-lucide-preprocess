@@ -1,11 +1,12 @@
 {
 	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
-	"extends": ["config:recommended", ":disableDependencyDashboard"],
+	"extends": ["config:recommended", ":disableDependencyDashboard", ":disablePeerDependencies"],
 	"labels": ["dependencies"],
 	"rangeStrategy": "bump",
 	"packageRules": [
 		{
 			"matchManagers": ["github-actions", "npm"],
+			"excludePackagePatterns": ["^lucide-"],
 			"groupName": "{{manager}}",
 			"addLabels": ["{{manager}}"]
 		},
