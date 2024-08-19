@@ -285,6 +285,11 @@ describe("Icon component name conversion", async () => {
 		expect(dashed).not.toContain(" ");
 		expect(dashed).toBe("thing");
 	});
+
+	test("*Icon suffix", () => {
+		const dashed = iconCompToDashed("Icon1Icon");
+		expect(dashed).toBe("icon-1");
+	});
 });
 
 describe("End-to-end", () => {

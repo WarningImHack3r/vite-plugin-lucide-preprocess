@@ -34,6 +34,8 @@ export function iconCompToDashed(component) {
 			.replace(/(\d)x-(\d)/, (_, a, b) => `${a}x${b}`)
 			// exception for ClockNN
 			.replace(/clock-(\d)-(\d)/, (_, a, b) => `clock-${a}${b}`)
+			// remove the "Icon" suffix
+			.replace(/-icon$/, "")
 	);
 }
 
@@ -43,42 +45,42 @@ export const importsMatcher = /^(\s*)import\s+\{([^}]*)}\s+from\s+(["'])lucide-(
  * The Vite plugin that preprocesses imports to optimize Lucide icons
  * @return {import("vite").Plugin}
  */
-export const plugin = () => ({
-	name: "vite-plugin-lucide-preprocess",
-	enforce: "pre",
-	transform: (code, path) => {
-		if (ignoredPaths.some(p => path.includes(p))) {
-			return;
+export function plugin() {
+	return {
+		name: "vite-plugin-lucide-preprocess",
+		enforce: "pre",
+		transform: (code, path) => {
+			if (ignoredPaths.some(p => path.includes(p))) return;
+			return {
+				code: code.replace(
+					importsMatcher,
+					/**
+					 * @param _ The whole matched string
+					 * @param initialSpacing {string} The spacing before the matched import statement
+					 * @param modulesStr {string} The imported icons as a raw string
+					 * @param quote {string} The quote used in the import statement (either ' or ")
+					 * @param framework {string} The framework the icons are imported for
+					 * @param lineEnding {string} The end of the line of the matched import statement (often a semicolon)
+					 * @return The optimized import statement(s)
+					 */
+					(_, initialSpacing, modulesStr, quote, framework, lineEnding) => {
+						const [modules, types] = rawModulesToLists(modulesStr);
+						const moduleImports = modules
+							.map(
+								m =>
+									`${initialSpacing}import ${m} from ${quote}lucide-${framework}/icons/${iconCompToDashed(m)}${quote}${lineEnding.trimEnd()}`
+							)
+							.join(initialSpacing.includes("\n") ? "" : "\n");
+						const typesImport = `${initialSpacing}import type { ${types.join(", ")} } from ${quote}lucide-${framework}${quote}${lineEnding.trimEnd()}`;
+						return [
+							types.length ? typesImport : undefined,
+							modules.length ? moduleImports : undefined
+						]
+							.filter(Boolean)
+							.join(initialSpacing.includes("\n") ? "" : "\n");
+					}
+				)
+			};
 		}
-		return {
-			code: code.replace(
-				importsMatcher,
-				/**
-				 * @param _ The whole matched string
-				 * @param initialSpacing {string} The spacing before the matched import statement
-				 * @param modulesStr {string} The imported icons as a raw string
-				 * @param quote {string} The quote used in the import statement (either ' or ")
-				 * @param framework {string} The framework the icons are imported for
-				 * @param lineEnding {string} The end of the line of the matched import statement (often a semicolon)
-				 * @return The optimized import statement(s)
-				 */
-				(_, initialSpacing, modulesStr, quote, framework, lineEnding) => {
-					const [modules, types] = rawModulesToLists(modulesStr);
-					const moduleImports = modules
-						.map(
-							m =>
-								`${initialSpacing}import ${m} from ${quote}lucide-${framework}/icons/${iconCompToDashed(m)}${quote}${lineEnding.trimEnd()}`
-						)
-						.join(initialSpacing.includes("\n") ? "" : "\n");
-					const typesImport = `${initialSpacing}import type { ${types.join(", ")} } from ${quote}lucide-${framework}${quote}${lineEnding.trimEnd()}`;
-					return [
-						types.length ? typesImport : undefined,
-						modules.length ? moduleImports : undefined
-					]
-						.filter(Boolean)
-						.join(initialSpacing.includes("\n") ? "" : "\n");
-				}
-			)
-		};
-	}
-});
+	};
+}
