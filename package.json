@@ -38,7 +38,7 @@
 		"vite": "^5"
 	},
 	"devDependencies": {
-		"lucide-svelte": "^0.428.0",
+		"lucide-svelte": "^0.436.0",
 		"prettier": "^3.3.3",
 		"publint": "^0.2.10",
 		"typescript": "^5.5.4",
