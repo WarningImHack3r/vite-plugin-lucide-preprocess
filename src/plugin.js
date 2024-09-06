@@ -1,3 +1,5 @@
+import { renamedReplacementsModules } from "./renamedReplacements.js";
+
 const ignoredPaths = ["/node_modules/", "/.svelte-kit/"];
 
 /**
@@ -22,21 +24,22 @@ export function rawModulesToLists(rawModules) {
  * Converts a PascalCase icon component name to a dashed string
  * (e.g. `IconComp` to `icon-comp`)
  * @param component {string} The PascalCase icon component name
- * @return {string} The dashed icon component name
+ * @return {string} The dashed icon component name, or the renamed one if it exists
  */
 export function iconCompToDashed(component) {
-	return (
-		component
-			.split(" ")[0] // take only the first part if there's an alias
-			// transform "IconComp" to "icon-comp"
-			.replace(/[A-Z\d]/g, (match, offset) => (offset > 0 ? "-" : "") + match.toLowerCase())
-			// fix for NxN icons
-			.replace(/(\d)x-(\d)/, (_, a, b) => `${a}x${b}`)
-			// exception for ClockNN
-			.replace(/clock-(\d)-(\d)/, (_, a, b) => `clock-${a}${b}`)
-			// remove the "Icon" suffix
-			.replace(/-icon$/, "")
-	);
+	const computedDashed = component
+		.split(" ")[0] // take only the first part if there's an alias
+		// transform "IconComp" to "icon-comp"
+		.replace(/[A-Z\d]/g, (match, offset) => (offset > 0 ? "-" : "") + match.toLowerCase())
+		// fix for NxN icons
+		.replace(/(\d)x-(\d)/, (_, a, b) => `${a}x${b}`)
+		// exception for ClockNN
+		.replace(/clock-(\d)-(\d)/, (_, a, b) => `clock-${a}${b}`)
+		// remove the Lucide prefix
+		.replace(/^lucide-/, "")
+		// remove the "Icon" suffix
+		.replace(/-icon$/, "");
+	return renamedReplacementsModules[computedDashed] ?? computedDashed;
 }
 
 export const importsMatcher = /^(\s*)import\s+\{([^}]*)}\s+from\s+(["'])lucide-(.*?)["'](.*)$/gm;
