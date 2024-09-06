@@ -4,7 +4,7 @@ const failingMap = tests.testResults
 	.map(testResult =>
 		testResult.assertionResults
 			.map(({ status, title, failureMessages }) => {
-				if (status === "passed" || !title.startsWith("Alias imports") || !failureMessages.length)
+				if (status === "passed" || !title.startsWith("Alias imports:") || !failureMessages.length)
 					return;
 				const assertionError = failureMessages[0]?.split("\n")[0];
 				if (!assertionError) return;

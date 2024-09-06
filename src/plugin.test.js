@@ -293,6 +293,7 @@ describe("Icon component name conversion", async () => {
 		const component = alias[1];
 		const dashedName = alias[2];
 
+		// Rename the condition in the renaming script if you change the name of that test(s)!
 		test(`Alias imports: ${component} -> ${dashedName}`, () => {
 			expect(iconCompToDashed(component)).eq(dashedName);
 		});

@@ -1,4 +1,4 @@
-import { renamedReplacementsModules } from "./renamedReplacements.js";
+import renamedReplacementsModules from "./renamedReplacements.js";
 
 const ignoredPaths = ["/node_modules/", "/.svelte-kit/"];
 

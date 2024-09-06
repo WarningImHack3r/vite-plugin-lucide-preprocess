@@ -1,4 +1,4 @@
-export const renamedReplacementsModules = {
+export default {
 	"alarm-check": "alarm-clock-check",
 	"alarm-minus": "alarm-clock-minus",
 	"alarm-plus": "alarm-clock-plus",
