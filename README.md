@@ -56,7 +56,8 @@ If you use a recently deprecated icon and can't make your build work, please wai
 to update itself.
 If the issue persists, please open an issue on this repository.
 
-More information about the auto-updater can be found in #6.
+More information about the auto-updater can be found
+in https://github.com/WarningImHack3r/vite-plugin-lucide-preprocess/pull/6.
 
 ## Installation
 

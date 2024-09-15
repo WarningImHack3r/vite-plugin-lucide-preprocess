@@ -38,15 +38,15 @@
 		"vite": "^5"
 	},
 	"devDependencies": {
-		"lucide-svelte": "^0.428.0",
+		"lucide-svelte": "^0.441.0",
 		"prettier": "^3.3.3",
 		"publint": "^0.2.10",
-		"typescript": "^5.5.4",
-		"vite": "^5.4.1",
-		"vitest": "^2.0.5"
+		"typescript": "^5.6.2",
+		"vite": "^5.4.5",
+		"vitest": "^2.1.1"
 	},
 	"main": "./dist/index.js",
 	"types": "./dist/index.d.ts",
 	"type": "module",
-	"packageManager": "pnpm@9.7.1"
+	"packageManager": "pnpm@9.10.0"
 }
