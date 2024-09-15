@@ -6,6 +6,10 @@ on:
       - main
   pull_request:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build:
     name: Build
@@ -79,4 +83,61 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Test
+        id: test
         run: pnpm test
+
+  test-fail:
+    name: Test Fail
+    runs-on: ubuntu-latest
+    needs: test
+    if: steps.test.outcome == 'failure' && !cancelled() && github.event_name == 'pull_request' && (github.event.pull_request.user.login == 'dependabot[bot]' || github.event.pull_request.user.login == 'renovate[bot]')
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up PNPM
+        uses: pnpm/action-setup@v4
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: latest
+          cache: pnpm
+
+      - name: Install Bun # Bun is the only way I can run the script that generates the map with such an import statement with
+        uses: oven-sh/setup-bun@v2 # it's also the fastest runtime and is 100% compatible with Node sooo 🤷‍♂️
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Empty replacements file
+        run: echo "export default {};" > src/renamedReplacements.js
+
+      - name: Create Vitest report
+        run: pnpm vitest --reporter=json --outputFile=out.json
+
+      - name: Replace the map
+        run: |
+          map=$(bun --bun run scripts/renamings-map-from-test.js)
+          echo "export default $(echo $map)" > src/renamedReplacements.js
+
+      - name: Run Prettier
+        run: pnpm prettier --write src/renamedReplacements.js
+
+      - name: Upgrade Lucide
+        run: pnpm up -L lucide-svelte
+
+      - name: Bump the version in package.json
+        run: |
+          # Use jq to bump the version in package.json
+          jq '.version |= (split(".") | .[2] = (. [2] | tonumber + 1) | join("."))' package.json | sponge package.json
+
+      - name: Commit and push the changes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: [ release ] Bump replacements map
+          file_pattern: src/renamedReplacements.js package.json pnpm-lock.yaml
+          branch: ${{ github.event.repository.default_branch }}
