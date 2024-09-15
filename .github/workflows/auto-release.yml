@@ -23,11 +23,11 @@ jobs:
 
       - name: Get tag
         id: get_tag
-        run: echo ::set-output name=tag::$(jq -r --arg prefix "v" '$prefix + .version' package.json)
+        run: echo "tag=$(jq -r --arg prefix "v" '$prefix + .version' package.json)" >> "$GITHUB_OUTPUT"
 
       - name: Get Lucide version
         id: get_lucide_version
-        run: echo ::set-output name=lucide_version::$(jq -r '.devDependencies["lucide-svelte"] | ltrimstr("^")' package.json)
+        run: echo "lucide_version=$(jq -r '.devDependencies["lucide-svelte"] | ltrimstr("^")' package.json)" >> "$GITHUB_OUTPUT"
 
       - name: Create release
         uses: softprops/action-gh-release@v2
