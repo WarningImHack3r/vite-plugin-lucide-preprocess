@@ -138,6 +138,6 @@ jobs:
       - name: Commit and push the changes
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: [ release ] Bump replacements map
+          commit_message: "[release] Bump replacements map"
           file_pattern: src/renamedReplacements.js package.json pnpm-lock.yaml
           branch: ${{ github.event.repository.default_branch }}
