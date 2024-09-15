@@ -270,13 +270,32 @@ const conversionRegex = /^export \{ default as (\S+) } from ["']\.\/(\S+).svelte
 
 describe("Icon component name conversion", async () => {
 	const imports = await import("/node_modules/lucide-svelte/dist/icons/index.js?raw");
-	const modules = imports.default.matchAll(conversionRegex);
+	const aliasesImports = await import("/node_modules/lucide-svelte/dist/aliases.js?raw");
+
+	const modules = [...imports.default.matchAll(conversionRegex)];
+	const aliases = [...aliasesImports.default.matchAll(conversionRegex)]
+		.filter(
+			alias =>
+				!modules.some(m => m[1] === alias[1]) &&
+				!alias[1].startsWith("Lucide") &&
+				!alias[1].endsWith("Icon")
+		)
+		.map(alias => [alias[0], alias[1], alias[2].replace(/icons\//, "")]);
 	for (const module of modules) {
 		const component = module[1];
 		const dashedName = module[2];
 
-		test(`${component} -> ${dashedName}`, () => {
-			expect(iconCompToDashed(component)).toBe(dashedName);
+		test(`Regular imports: ${component} -> ${dashedName}`, () => {
+			expect(iconCompToDashed(component)).eq(dashedName);
+		});
+	}
+	for (const alias of aliases) {
+		const component = alias[1];
+		const dashedName = alias[2];
+
+		// Rename the condition in the renaming script if you change the name of that test(s)!
+		test(`Alias imports: ${component} -> ${dashedName}`, () => {
+			expect(iconCompToDashed(component)).eq(dashedName);
 		});
 	}
 
@@ -288,6 +307,11 @@ describe("Icon component name conversion", async () => {
 
 	test("*Icon suffix", () => {
 		const dashed = iconCompToDashed("Icon1Icon");
+		expect(dashed).toBe("icon-1");
+	});
+
+	test("Lucide* prefix", () => {
+		const dashed = iconCompToDashed("LucideIcon1");
 		expect(dashed).toBe("icon-1");
 	});
 });

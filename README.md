@@ -47,6 +47,17 @@ but I don't know if it will ever be implemented.
 [I opened an issue](https://github.com/lucide-icons/lucide/issues/2295) on the `lucide-icons` repository to discuss
 this.
 
+## Auto-updater
+
+As of version 1.1.0, the plugin includes an auto-updater.
+It helps support the renamed and deprecated icons by automatically updating the plugin when necessary.
+
+If you use a recently deprecated icon and can't make your build work, please wait for a few hours for the plugin
+to update itself.
+If the issue persists, please open an issue on this repository.
+
+More information about the auto-updater can be found in #6.
+
 ## Installation
 
 Install the plugin with your package manager of choice:
