@@ -96,6 +96,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          token: ${{ secrets.WORKFLOW_PAT }}
 
       - name: Set up PNPM
         uses: pnpm/action-setup@v4
@@ -113,6 +116,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Empty replacements file
+        # This is necessary because we want to regenerate the whole map
         run: echo "export default {};" > src/renamedReplacements.js
 
       - name: Create Vitest report

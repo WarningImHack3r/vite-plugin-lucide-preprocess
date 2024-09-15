@@ -13,7 +13,7 @@ jobs:
   create-gh-release:
     name: Create GitHub Release
     runs-on: ubuntu-latest
-    if: github.event.push.user.login == 'github-actions[bot]' && startsWith(github.event.head_commit.message, '[release]')
+    if: github.event.commits[0].committer.name == 'github-actions[bot]' && startsWith(github.event.head_commit.message, '[release]')
     permissions:
       contents: write
 
@@ -35,3 +35,4 @@ jobs:
           tag_name: ${{ steps.get_tag.outputs.tag }}
           body: |
             - Add support for newly renamed components in Lucide v${{ steps.get_lucide_version.outputs.lucide_version }}
+          token: ${{ secrets.WORKFLOW_PAT }}
