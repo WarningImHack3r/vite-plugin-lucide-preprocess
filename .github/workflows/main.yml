@@ -90,7 +90,7 @@ jobs:
     name: Test Fail
     runs-on: ubuntu-latest
     needs: test
-    if: steps.test.outcome == 'failure' && !cancelled() && github.event_name == 'pull_request' && (github.event.pull_request.user.login == 'dependabot[bot]' || github.event.pull_request.user.login == 'renovate[bot]')
+    if: failure() && steps.test.conclusion == 'failure' && !cancelled() && github.event_name == 'pull_request' && (github.event.pull_request.user.login == 'dependabot[bot]' || github.event.pull_request.user.login == 'renovate[bot]')
     permissions:
       contents: write
 
