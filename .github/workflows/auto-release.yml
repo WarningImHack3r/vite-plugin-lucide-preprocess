@@ -1,0 +1,37 @@
+name: Auto Release
+
+on:
+  push:
+    branches:
+      - main
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  create-gh-release:
+    name: Create GitHub Release
+    runs-on: ubuntu-latest
+    if: github.event.push.user.login == 'github-actions[bot]' && startsWith(github.event.head_commit.message, '[release]')
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Get tag
+        id: get_tag
+        run: echo ::set-output name=tag::$(jq -r --arg prefix "v" '$prefix + .version' package.json)
+
+      - name: Get Lucide version
+        id: get_lucide_version
+        run: echo ::set-output name=lucide_version::$(jq -r '.devDependencies["lucide-svelte"] | ltrimstr("^")' package.json)
+
+      - name: Create release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.get_tag.outputs.tag }}
+          body: |
+            - Add support for newly renamed components in Lucide v${{ steps.get_lucide_version.outputs.lucide_version }}
