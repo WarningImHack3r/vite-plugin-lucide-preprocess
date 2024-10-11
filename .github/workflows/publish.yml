@@ -27,7 +27,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: latest
-          registry-url: https://registry.npmjs.org
+          registry-url: https://registry.npmjs.com
           cache: pnpm
 
       - name: Install dependencies
