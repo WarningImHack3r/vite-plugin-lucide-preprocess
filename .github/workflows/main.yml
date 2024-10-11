@@ -99,6 +99,7 @@ jobs:
         with:
           ref: ${{ github.head_ref }}
           token: ${{ secrets.WORKFLOW_PAT }}
+          fetch-depth: 0
 
       - name: Set up PNPM
         uses: pnpm/action-setup@v4
@@ -120,7 +121,7 @@ jobs:
         run: echo "export default {};" > src/renamedReplacements.js
 
       - name: Create Vitest report
-        run: pnpm vitest --reporter=json --outputFile=out.json
+        run: pnpm vitest --reporter=json --outputFile=out.json || true
 
       - name: Replace the map
         run: |
@@ -134,13 +135,17 @@ jobs:
         run: pnpm up -L lucide-svelte
 
       - name: Bump the version in package.json
+        # Use jq to bump the version in package.json
         run: |
-          # Use jq to bump the version in package.json
-          jq '.version |= (split(".") | .[2] = (. [2] | tonumber + 1) | join("."))' package.json | sponge package.json
+          jq '.version |= (split(".") | .[2] = (. [2] | tonumber + 1) | join("."))' package.json > package.json.tmp
+          mv package.json.tmp package.json
 
       - name: Commit and push the changes
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: "[release] Bump replacements map"
-          file_pattern: src/renamedReplacements.js package.json pnpm-lock.yaml
-          branch: ${{ github.event.repository.default_branch }}
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add src/renamedReplacements.js package.json pnpm-lock.yaml
+          git commit -m "[release] Bump replacements map"
+          git checkout ${{ github.event.repository.default_branch }}
+          git merge ${{ github.head_ref }}
+          git push origin ${{ github.event.repository.default_branch }}
