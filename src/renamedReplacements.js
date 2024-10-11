@@ -116,6 +116,7 @@ export default {
 	"code-square": "square-code",
 	"kanban-square-dashed": "square-dashed-kanban",
 	"mouse-pointer-square-dashed": "square-dashed-mouse-pointer",
+	"box-select": "square-dashed",
 	"divide-square": "square-divide",
 	"dot-square": "square-dot",
 	"equal-square": "square-equal",
