@@ -23,16 +23,16 @@ jobs:
 
       - name: Get tag
         id: get_tag
-        run: echo "tag=$(jq -r --arg prefix "v" '$prefix + .version' package.json)" >> "$GITHUB_OUTPUT"
+        run: echo "tag=$(jq -r '.version' package.json)" >> "$GITHUB_OUTPUT"
 
       - name: Get Lucide version
         id: get_lucide_version
-        run: echo "lucide_version=$(jq -r '.devDependencies["lucide-svelte"] | ltrimstr("^")' package.json)" >> "$GITHUB_OUTPUT"
+        run: echo "lucide_version=$(jq -r '.devDependencies["lucide-svelte"] | sub("^[^0-9]*"; "")' package.json)" >> "$GITHUB_OUTPUT"
 
       - name: Create release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ steps.get_tag.outputs.tag }}
+          tag_name: v${{ steps.get_tag.outputs.tag }}
           body: |
             - Add support for newly renamed components in Lucide v${{ steps.get_lucide_version.outputs.lucide_version }}
           token: ${{ secrets.WORKFLOW_PAT }}
