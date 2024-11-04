@@ -42,13 +42,47 @@ export function iconCompToDashed(component) {
 	return renamedReplacementsModules[computedDashed] ?? computedDashed;
 }
 
+/**
+ * Returns the import path for a specific Lucide framework
+ * @param framework {string} The Lucide framework
+ * @param options {Options} The plugin options
+ * @return {string} The import path for the Lucide framework
+ */
+export function frameworkImportPath(framework, options) {
+	switch (framework) {
+		case "react":
+		case "vue":
+		case "vue-next":
+		case "solid":
+		case "preact":
+			return `/dist/${options.importMode}/icons/`;
+		default:
+			return "/icons/";
+	}
+}
+
 export const importsMatcher = /^(\s*)import\s+\{([^}]*)}\s+from\s+(["'])lucide-(.*?)["'](.*)$/gm;
 
 /**
+ * @typedef {Object} Options
+ * @property {"cjs" | "esm"} [importMode="esm"] The import type for React
+ */
+
+/**
+ * The default plugin options
+ * @type {Options}
+ */
+const defaultOptions = {
+	importMode: "esm"
+};
+
+/**
  * The Vite plugin that preprocesses imports to optimize Lucide icons
+ * @param options {Options} The plugin options
  * @return {import("vite").Plugin}
  */
-export function plugin() {
+export function plugin(options = defaultOptions) {
+	const mergedOptions = { ...defaultOptions, ...options };
 	return {
 		name: "vite-plugin-lucide-preprocess",
 		enforce: "pre",
@@ -71,7 +105,10 @@ export function plugin() {
 						const moduleImports = modules
 							.map(
 								m =>
-									`${initialSpacing}import ${m} from ${quote}lucide-${framework}/icons/${iconCompToDashed(m)}${quote}${lineEnding.trimEnd()}`
+									`${initialSpacing}import ${m} from ${quote}lucide-${framework}${frameworkImportPath(
+										framework,
+										mergedOptions
+									)}${iconCompToDashed(m)}${quote}${lineEnding.trimEnd()}`
 							)
 							.join(initialSpacing.includes("\n") ? "" : "\n");
 						const typesImport = `${initialSpacing}import type { ${types.join(", ")} } from ${quote}lucide-${framework}${quote}${lineEnding.trimEnd()}`;

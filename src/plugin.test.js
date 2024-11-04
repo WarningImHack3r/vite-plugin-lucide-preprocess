@@ -1,5 +1,11 @@
 import { describe, expect, test } from "vitest";
-import { iconCompToDashed, importsMatcher, plugin, rawModulesToLists } from "./plugin.js";
+import {
+	frameworkImportPath,
+	iconCompToDashed,
+	importsMatcher,
+	plugin,
+	rawModulesToLists
+} from "./plugin.js";
 
 describe("Regex matching", () => {
 	test("single import statement", () => {
@@ -316,6 +322,18 @@ describe("Icon component name conversion", async () => {
 	});
 });
 
+describe("Framework import path", () => {
+	test("default", () => {
+		const path = frameworkImportPath("default", { importMode: "esm" });
+		expect(path).toBe("/icons/");
+	});
+
+	test("react", () => {
+		const path = frameworkImportPath("react", { importMode: "cjs" });
+		expect(path).toBe("/dist/cjs/icons/");
+	});
+});
+
 describe("End-to-end", () => {
 	test("single import with single icon", () => {
 		const code = `import { Icon1 } from "lucide-svelte";`;
@@ -380,7 +398,7 @@ describe("End-to-end", () => {
 		const code = `
 		import { Thing } from "another-package";
 		import Named from "another-package";
-		import { Icon2 } from "lucide-svelte";
+		import { Icon2 } from "lucide-react";
 		import { Thing2 } from "another-package";
 		import type { Thing3 } from "lucide-react";
 		import Icon4 from "lucide-svelte/icons/icon-4";
@@ -394,7 +412,7 @@ describe("End-to-end", () => {
 		expect(transformed.code).toBe(`
 		import { Thing } from "another-package";
 		import Named from "another-package";
-		import Icon2 from "lucide-svelte/icons/icon-2";
+		import Icon2 from "lucide-react/dist/esm/icons/icon-2";
 		import { Thing2 } from "another-package";
 		import type { Thing3 } from "lucide-react";
 		import Icon4 from "lucide-svelte/icons/icon-4";

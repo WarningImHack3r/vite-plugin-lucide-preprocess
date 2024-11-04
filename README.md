@@ -82,6 +82,19 @@ export default defineConfig({
 > [!WARNING]
 > Make sure to add the plugin **before** any other preprocessors in the `plugins` array.
 
+## Options
+
+The plugin optionally accepts an object with the following options:
+
+- `importMode` (default: `"esm"`): The import mode for CommonJS-compatible frameworks.
+
+  - `"esm"`: Import the icons as ES modules.
+  - `"cjs"`: Import the icons as CommonJS modules.
+
+  This option is useful if you use a CommonJS-compatible framework like React or Vue.
+  It will automatically replace the imports with the correct syntax depending on whether
+  your framework supports CJS or not.
+
 ## License
 
 MIT
