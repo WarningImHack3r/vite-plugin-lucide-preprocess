@@ -18,6 +18,10 @@ const failingMap = tests.testResults
 	)
 	.flat();
 
+if (!failingMap.length) {
+	throw new Error("No test results found, likely a breaking change from Lucide?");
+}
+
 console.log(
 	"{\n" +
 		failingMap
