@@ -55,7 +55,6 @@ export function frameworkImportPath(framework, options) {
 		case "vue-next":
 		case "preact":
 			return `/dist/${options.importMode}/icons/`;
-		case "solid":
 		default:
 			return "/icons/";
 	}
