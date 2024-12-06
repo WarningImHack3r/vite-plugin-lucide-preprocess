@@ -39,14 +39,14 @@
 	},
 	"devDependencies": {
 		"lucide-svelte": "^0.456.0",
-		"prettier": "^3.3.3",
+		"prettier": "^3.4.2",
 		"publint": "^0.2.12",
-		"typescript": "^5.6.3",
+		"typescript": "^5.7.2",
 		"vite": "^5.4.11",
-		"vitest": "^2.1.5"
+		"vitest": "^2.1.8"
 	},
 	"main": "./dist/index.js",
 	"types": "./dist/index.d.ts",
 	"type": "module",
-	"packageManager": "pnpm@9.14.2"
+	"packageManager": "pnpm@9.15.0"
 }
