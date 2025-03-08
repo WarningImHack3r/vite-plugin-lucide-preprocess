@@ -60,7 +60,8 @@ export function frameworkImportPath(framework, options) {
 	}
 }
 
-export const importsMatcher = /^(\s*)import\s+\{([^}]*)}\s+from\s+(["'])lucide-(.*?)["'](.*)$/gm;
+export const importsMatcher =
+	/^(\s*)import\s+\{([^}]*)}\s+from\s+(["'])(lucide-|@lucide\/)(?!lab\b)(\S+)["'](.*)$/gm;
 
 /**
  * @typedef {Object} Options
@@ -95,22 +96,23 @@ export function plugin(options = defaultOptions) {
 					 * @param initialSpacing {string} The spacing before the matched import statement
 					 * @param modulesStr {string} The imported icons as a raw string
 					 * @param quote {string} The quote used in the import statement (either ' or ")
+					 * @param importStyle {string} The method the icons are imported with
 					 * @param framework {string} The framework the icons are imported for
 					 * @param lineEnding {string} The end of the line of the matched import statement (often a semicolon)
 					 * @return The optimized import statement(s)
 					 */
-					(_, initialSpacing, modulesStr, quote, framework, lineEnding) => {
+					(_, initialSpacing, modulesStr, quote, importStyle, framework, lineEnding) => {
 						const [modules, types] = rawModulesToLists(modulesStr);
 						const moduleImports = modules
 							.map(
 								m =>
-									`${initialSpacing}import ${m} from ${quote}lucide-${framework}${frameworkImportPath(
+									`${initialSpacing}import ${m} from ${quote}${importStyle}${framework}${frameworkImportPath(
 										framework,
 										mergedOptions
 									)}${iconCompToDashed(m)}${quote}${lineEnding.trimEnd()}`
 							)
 							.join(initialSpacing.includes("\n") ? "" : "\n");
-						const typesImport = `${initialSpacing}import type { ${types.join(", ")} } from ${quote}lucide-${framework}${quote}${lineEnding.trimEnd()}`;
+						const typesImport = `${initialSpacing}import type { ${types.join(", ")} } from ${quote}${importStyle}${framework}${quote}${lineEnding.trimEnd()}`;
 						return [
 							types.length ? typesImport : undefined,
 							modules.length ? moduleImports : undefined

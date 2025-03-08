@@ -13,8 +13,15 @@ describe("Regex matching", () => {
 		const matches = [...code.matchAll(importsMatcher)];
 		expect(matches).not.toBe(null);
 		expect(matches).toHaveLength(1);
-		expect(matches[0]).toHaveLength(6);
+		expect(matches[0]).toHaveLength(7);
 		expect(matches[0][2]).toBe(" Icon1 ");
+	});
+
+	test("type import is skipped", () => {
+		const code = `import type { Icon } from "lucide-solid";`;
+		const matches = [...code.matchAll(importsMatcher)];
+		expect(matches).not.toBe(null);
+		expect(matches).toHaveLength(0);
 	});
 
 	describe("Imports-level matching", () => {
@@ -26,9 +33,9 @@ describe("Regex matching", () => {
 			const matches = [...code.matchAll(importsMatcher)];
 			expect(matches).not.toBe(null);
 			expect(matches).toHaveLength(2);
-			expect(matches[0]).toHaveLength(6);
+			expect(matches[0]).toHaveLength(7);
 			expect(matches[0][2]).toBe(" Icon1 ");
-			expect(matches[1]).toHaveLength(6);
+			expect(matches[1]).toHaveLength(7);
 			expect(matches[1][2]).toBe(" Icon2 ");
 		});
 
@@ -40,9 +47,9 @@ describe("Regex matching", () => {
 			const matches = [...code.matchAll(importsMatcher)];
 			expect(matches).not.toBe(null);
 			expect(matches).toHaveLength(2);
-			expect(matches[0]).toHaveLength(6);
+			expect(matches[0]).toHaveLength(7);
 			expect(matches[0][2]).toBe(" Icon1 ");
-			expect(matches[1]).toHaveLength(6);
+			expect(matches[1]).toHaveLength(7);
 			expect(matches[1][2]).toBe(" Icon2, Icon3 ");
 		});
 
@@ -54,7 +61,7 @@ describe("Regex matching", () => {
 			const matches = [...code.matchAll(importsMatcher)];
 			expect(matches).not.toBe(null);
 			expect(matches).toHaveLength(1);
-			expect(matches[0]).toHaveLength(6);
+			expect(matches[0]).toHaveLength(7);
 			expect(matches[0][2]).toBe(" Icon2 ");
 		});
 
@@ -79,7 +86,7 @@ describe("Regex matching", () => {
 			const matches = [...code.matchAll(importsMatcher)];
 			expect(matches).not.toBe(null);
 			expect(matches).toHaveLength(1);
-			expect(matches[0]).toHaveLength(6);
+			expect(matches[0]).toHaveLength(7);
 			expect(matches[0][2].trim()).toBe("Icon1");
 		});
 
@@ -95,9 +102,9 @@ describe("Regex matching", () => {
 			const matches = [...code.matchAll(importsMatcher)];
 			expect(matches).not.toBe(null);
 			expect(matches).toHaveLength(2);
-			expect(matches[0]).toHaveLength(6);
+			expect(matches[0]).toHaveLength(7);
 			expect(matches[0][2].trim()).toBe("Icon1");
-			expect(matches[1]).toHaveLength(6);
+			expect(matches[1]).toHaveLength(7);
 			expect(matches[1][2].trim()).toBe("Icon2");
 		});
 
@@ -111,7 +118,7 @@ describe("Regex matching", () => {
 			const matches = [...code.matchAll(importsMatcher)];
 			expect(matches).not.toBe(null);
 			expect(matches).toHaveLength(1);
-			expect(matches[0]).toHaveLength(6);
+			expect(matches[0]).toHaveLength(7);
 			expect(matches[0][2].trim()).toBe("Icon1,\n\t\t\t\t\tIcon2");
 		});
 
@@ -125,7 +132,7 @@ describe("Regex matching", () => {
 			const matches = [...code.matchAll(importsMatcher)];
 			expect(matches).not.toBe(null);
 			expect(matches).toHaveLength(1);
-			expect(matches[0]).toHaveLength(6);
+			expect(matches[0]).toHaveLength(7);
 			expect(matches[0][2].trim()).toBe("Icon1,\n\t\t\t\t\tIcon2,");
 		});
 
@@ -142,7 +149,7 @@ describe("Regex matching", () => {
 			const matches = [...code.matchAll(importsMatcher)];
 			expect(matches).not.toBe(null);
 			expect(matches).toHaveLength(1);
-			expect(matches[0]).toHaveLength(6);
+			expect(matches[0]).toHaveLength(7);
 			expect(matches[0][2].trim()).toBe(
 				",\n\t\t\t\t\tIcon1 ,\n\t\t\t\t\tIcon2\n\t\t\t\t\t,Icon3 ,\n\t\t\t\t\tIcon4,"
 			);
@@ -317,6 +324,40 @@ describe("Icon component name conversion", async () => {
 	});
 });
 
+describe("Framework matching", () => {
+	test("non-lucide package", () => {
+		const code = `import { Something } from "pack"`;
+		const matches = [...code.matchAll(importsMatcher)];
+		expect(matches).not.toBe(null);
+		expect(matches).toHaveLength(0);
+	});
+
+	test("lucide package", () => {
+		const code = `import { Icon1 } from "lucide-preact";`;
+		const matches = [...code.matchAll(importsMatcher)];
+		expect(matches).not.toBe(null);
+		expect(matches).toHaveLength(1);
+		expect(matches[0]).toHaveLength(7);
+		expect(matches[0][5]).toBe("preact");
+	});
+
+	test("lucide lab", () => {
+		const code = `import { burger } from "@lucide/lab"`;
+		const matches = [...code.matchAll(importsMatcher)];
+		expect(matches).not.toBe(null);
+		expect(matches).toHaveLength(0);
+	});
+
+	test("new lucide packages", () => {
+		const code = `import { Icon1 } from "@lucide/svelte"`;
+		const matches = [...code.matchAll(importsMatcher)];
+		expect(matches).not.toBe(null);
+		expect(matches).toHaveLength(1);
+		expect(matches[0]).toHaveLength(7);
+		expect(matches[0][5]).toBe("svelte");
+	});
+});
+
 describe("Framework import path", () => {
 	test("default", () => {
 		const path = frameworkImportPath("default", { importMode: "esm" });
@@ -337,6 +378,15 @@ describe("End-to-end", () => {
 		);
 		expect(transformed).not.toBe(undefined);
 		expect(transformed.code).toBe(`import Icon1 from "lucide-svelte/icons/icon-1";`);
+	});
+
+	test("single new import with single icon", () => {
+		const code = `import { Icon1 } from "@lucide/svelte";`;
+		const transformed = /** @type {import("vite").TransformResult} */ (
+			plugin().transform(code, "file.svelte")
+		);
+		expect(transformed).not.toBe(undefined);
+		expect(transformed.code).toBe(`import Icon1 from "@lucide/svelte/icons/icon-1";`);
 	});
 
 	test("single import with multiple types, aliases and icons", () => {
@@ -393,11 +443,11 @@ describe("End-to-end", () => {
 		const code = `
 		import { Thing } from "another-package";
 		import Named from "another-package";
-		import { Icon2 } from "lucide-react";
+		import { Icon2 } from "lucide-react"
 		import { Thing2 } from "another-package";
 		import type { Thing3 } from "lucide-react";
-		import Icon4 from "lucide-svelte/icons/icon-4";
-		import { type One, Icon1, Icon3 as Icon4, Icon5 } from "lucide-svelte";
+		import Icon4 from "lucide-svelte/icons/icon-4"
+		import { type One, Icon1, Icon3 as Icon4, Icon5 } from "@lucide/svelte";
 		import * as All from "another-package";
 		`;
 		const transformed = /** @type {import("vite").TransformResult} */ (
@@ -407,14 +457,14 @@ describe("End-to-end", () => {
 		expect(transformed.code).toBe(`
 		import { Thing } from "another-package";
 		import Named from "another-package";
-		import Icon2 from "lucide-react/dist/esm/icons/icon-2";
+		import Icon2 from "lucide-react/dist/esm/icons/icon-2"
 		import { Thing2 } from "another-package";
 		import type { Thing3 } from "lucide-react";
-		import Icon4 from "lucide-svelte/icons/icon-4";
-		import type { One } from "lucide-svelte";
-		import Icon1 from "lucide-svelte/icons/icon-1";
-		import Icon3 as Icon4 from "lucide-svelte/icons/icon-3";
-		import Icon5 from "lucide-svelte/icons/icon-5";
+		import Icon4 from "lucide-svelte/icons/icon-4"
+		import type { One } from "@lucide/svelte";
+		import Icon1 from "@lucide/svelte/icons/icon-1";
+		import Icon3 as Icon4 from "@lucide/svelte/icons/icon-3";
+		import Icon5 from "@lucide/svelte/icons/icon-5";
 		import * as All from "another-package";
 		`);
 	});
