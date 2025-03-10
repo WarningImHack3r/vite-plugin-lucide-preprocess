@@ -40,7 +40,7 @@
 	"devDependencies": {
 		"lucide-svelte": "^0.479.0",
 		"prettier": "^3.5.3",
-		"publint": "^0.3.8",
+		"publint": "^0.3.9",
 		"typescript": "^5.8.2",
 		"vite": "^6.2.1",
 		"vitest": "^3.0.8"
@@ -53,5 +53,5 @@
 	"main": "./dist/index.js",
 	"types": "./dist/index.d.ts",
 	"type": "module",
-	"packageManager": "pnpm@10.6.1"
+	"packageManager": "pnpm@10.6.2"
 }
