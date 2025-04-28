@@ -1,50 +1,52 @@
 # vite-plugin-lucide-preprocess
 
-![NPM Version](https://img.shields.io/npm/v/vite-plugin-lucide-preprocess)
-![NPM Downloads](https://img.shields.io/npm/dw/vite-plugin-lucide-preprocess)
-![NPM Type Definitions](https://img.shields.io/npm/types/vite-plugin-lucide-preprocess)
-![NPM License](https://img.shields.io/npm/l/vite-plugin-lucide-preprocess)
+[![NPM Version](https://img.shields.io/npm/v/vite-plugin-lucide-preprocess)](https://www.npmjs.com/package/vite-plugin-lucide-preprocess?activeTab=versions)
+[![NPM Downloads](https://img.shields.io/npm/dw/vite-plugin-lucide-preprocess)](https://www.npmjs.com/package/vite-plugin-lucide-preprocess)
+[![NPM Type Definitions](https://img.shields.io/npm/types/vite-plugin-lucide-preprocess)](https://www.npmjs.com/package/vite-plugin-lucide-preprocess)
+[![NPM License](https://img.shields.io/npm/l/vite-plugin-lucide-preprocess)](LICENSE)
 
-A [Vite](https://vitejs.dev) plugin to replace imports for [Lucide icons](https://lucide.dev).
+A [Vite](https://vite.dev) plugin to replace imports for [Lucide icons](https://lucide.dev).
 
 ## What is this?
 
 ### Motivation
 
-If you want to import Lucide icons in your project, you can use two methods since
-[this PR on Lucide](https://github.com/lucide-icons/lucide/pull/1707) (at least for `lucide-svelte`):
+If you want to import Lucide icons in your project, you can (usually — depending on
+the package) use two methods:
 
 ```js
-import { IconName } from "lucide-svelte";
+import { IconName } from "@lucide/svelte";
 // or
-import IconName from "lucide-svelte/icons/icon-name";
+import IconName from "@lucide/svelte/icons/icon-name";
 ```
 
 While the first method is more convenient (and may be the one used by auto-import features in your editor),
 it is not tree-shakable.  
-In fact, a single import from `"lucide-<framework>"` will import all icons, not ideal for Vite dev
-server performance and build time.
-[More information here](https://github.com/WarningImHack3r/vite-plugin-lucide-preprocess/issues/11#issuecomment-2445209558).
+In fact, a single import from `"lucide-<framework>"` or `"@lucide/<framework>"`
+[will import all icons](https://github.com/WarningImHack3r/vite-plugin-lucide-preprocess/issues/11#issuecomment-2445209558);
+not ideal for Vite dev server performance and build time.
 
 **This plugin will replace the first method with the second one, so you can keep the convenience of the first method
 while benefiting from tree-shaking optimizations.** “Correct” imports will be kept as-is.
 
 > [!NOTE]
-> The plugin is primarily intended for `lucide-svelte`, but it should work with
-> any Lucide package using Vite if they follow the same structure.
+> The plugin is primarily intended for `@lucide/svelte`, but it works with
+> any Lucide package using Vite.
+> If it doesn't support a Lucide implementation,
+> [please open an issue](https://github.com/WarningImHack3r/vite-plugin-lucide-preprocess).
 
 ### Credits and opinion
 
-I got the idea from [Phosphor Icons'
-optimizer](https://github.com/haruaki07/phosphor-svelte#import-optimizer-experimental).
-However, this plugin is written from scratch and is not based on the Phosphor one (even though the technique is
-essentially the same).
+I got the idea from [Phosphor Icons' optimizer](https://github.com/haruaki07/phosphor-svelte#import-optimizer).
+However, this plugin is written from scratch and is not based on the Phosphor one, even though the technique is
+essentially the same.
 
-As it is a Vite plugin and not a Svelte one, it is more generic and can be used with any framework.
-Additionally, it doesn't suffer from the limitations of the Svelte plugin, preventing the Phosphor
+Contrary to the experimental version of Phosphor Icons' implementation, this plugin is
+a Vite plugin and not a Svelte one, it is more generic and can be used with any framework.
+Additionally, it doesn't suffer from the limitations of the Svelte plugin, preventing the old Phosphor
 optimizer from working without disabling the native Vite optimizations of `phosphor-svelte`.
 
-This should subjectively be a feature embedded in Lucide itself (`lucide-svelte/preprocessor`),
+This should subjectively be a feature embedded in Lucide itself (`@lucide/svelte/preprocessor`),
 but I don't know if it will ever be implemented.
 [I opened an issue](https://github.com/lucide-icons/lucide/issues/2295) on the `lucide-icons` repository to discuss
 this.
@@ -75,7 +77,7 @@ import { defineConfig } from "vite";
 import lucidePreprocess from "vite-plugin-lucide-preprocess";
 
 export default defineConfig({
-  plugins: [lucidePreprocess(), ...]
+	plugins: [lucidePreprocess() /* , ... */]
 });
 ```
 
