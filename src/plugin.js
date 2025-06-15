@@ -2,11 +2,13 @@ import renamedReplacementsModules from "./renamedReplacements.js";
 
 const ignoredPaths = ["/node_modules/", "/.svelte-kit/"];
 
+/** @typedef {{ name: string; importName: string }} Module */
+
 /**
  * Converts a raw string of imported icons to a list of module names,
  * and a list of TypeScript types
  * @param rawModules {string} The raw string of imported icons
- * @return {[string[], string[]]} A list containing a list of imported icons,
+ * @return {[Module[], string[]]} A list containing a list of imported icons,
  * and a list of TypeScript types
  */
 export function rawModulesToLists(rawModules) {
@@ -15,7 +17,12 @@ export function rawModulesToLists(rawModules) {
 		.map(m => m.trim())
 		.filter(m => !!m);
 	return [
-		raw.filter(m => !m.startsWith("type ")),
+		raw
+			.filter(m => !m.startsWith("type "))
+			.map(m => {
+				const [original, newName] = m.split(" as ");
+				return { name: newName ?? original, importName: original };
+			}),
 		raw.filter(m => m.startsWith("type ")).map(m => m.slice(5))
 	];
 }
@@ -106,10 +113,10 @@ export function plugin(options = defaultOptions) {
 						const moduleImports = modules
 							.map(
 								m =>
-									`${initialSpacing}import ${m} from ${quote}${importStyle}${framework}${frameworkImportPath(
+									`${initialSpacing}import ${m.name} from ${quote}${importStyle}${framework}${frameworkImportPath(
 										framework,
 										mergedOptions
-									)}${iconCompToDashed(m)}${quote}${lineEnding.trimEnd()}`
+									)}${iconCompToDashed(m.importName)}${quote}${lineEnding.trimEnd()}`
 							)
 							.join(initialSpacing.includes("\n") ? "" : "\n");
 						const typesImport = `${initialSpacing}import type { ${types.join(", ")} } from ${quote}${importStyle}${framework}${quote}${lineEnding.trimEnd()}`;

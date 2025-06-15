@@ -164,7 +164,8 @@ describe("Modules parsing", () => {
 			const list = rawModulesToLists(modules);
 			expect(list[0]).toHaveLength(1);
 			expect(list[1]).toHaveLength(0);
-			expect(list[0]).toStrictEqual(["Icon1"]);
+			expect(list[0].map(m => m.name)).toStrictEqual(["Icon1"]);
+			expect(list[0].map(m => m.importName)).toStrictEqual(["Icon1"]);
 		});
 
 		test("multiple", () => {
@@ -172,7 +173,8 @@ describe("Modules parsing", () => {
 			const list = rawModulesToLists(modules);
 			expect(list[0]).toHaveLength(3);
 			expect(list[1]).toHaveLength(0);
-			expect(list[0]).toStrictEqual(["Icon1", "Icon2", "Icon3"]);
+			expect(list[0].map(m => m.name)).toStrictEqual(["Icon1", "Icon2", "Icon3"]);
+			expect(list[0].map(m => m.importName)).toStrictEqual(["Icon1", "Icon2", "Icon3"]);
 		});
 
 		test("single with trailing comma", () => {
@@ -180,7 +182,8 @@ describe("Modules parsing", () => {
 			const list = rawModulesToLists(modules);
 			expect(list[0]).toHaveLength(1);
 			expect(list[1]).toHaveLength(0);
-			expect(list[0]).toStrictEqual(["Icon1"]);
+			expect(list[0].map(m => m.name)).toStrictEqual(["Icon1"]);
+			expect(list[0].map(m => m.importName)).toStrictEqual(["Icon1"]);
 		});
 
 		test("multiple with trailing comma", () => {
@@ -188,7 +191,26 @@ describe("Modules parsing", () => {
 			const list = rawModulesToLists(modules);
 			expect(list[0]).toHaveLength(3);
 			expect(list[1]).toHaveLength(0);
-			expect(list[0]).toStrictEqual(["Icon1", "Icon2", "Icon3"]);
+			expect(list[0].map(m => m.name)).toStrictEqual(["Icon1", "Icon2", "Icon3"]);
+			expect(list[0].map(m => m.importName)).toStrictEqual(["Icon1", "Icon2", "Icon3"]);
+		});
+
+		test("single with alias", () => {
+			const modules = ` Icon1 as Icon2 `;
+			const list = rawModulesToLists(modules);
+			expect(list[0]).toHaveLength(1);
+			expect(list[1]).toHaveLength(0);
+			expect(list[0].map(m => m.name)).toStrictEqual(["Icon2"]);
+			expect(list[0].map(m => m.importName)).toStrictEqual(["Icon1"]);
+		});
+
+		test("multiple with aliases", () => {
+			const modules = `Icon1 as Icon2,Icon3, Icon4 as Icon5 `;
+			const list = rawModulesToLists(modules);
+			expect(list[0]).toHaveLength(3);
+			expect(list[1]).toHaveLength(0);
+			expect(list[0].map(m => m.name)).toStrictEqual(["Icon2", "Icon3", "Icon5"]);
+			expect(list[0].map(m => m.importName)).toStrictEqual(["Icon1", "Icon3", "Icon4"]);
 		});
 
 		test("single with leading comma", () => {
@@ -196,7 +218,8 @@ describe("Modules parsing", () => {
 			const list = rawModulesToLists(modules);
 			expect(list[0]).toHaveLength(1);
 			expect(list[1]).toHaveLength(0);
-			expect(list[0]).toStrictEqual(["Icon1"]);
+			expect(list[0].map(m => m.name)).toStrictEqual(["Icon1"]);
+			expect(list[0].map(m => m.importName)).toStrictEqual(["Icon1"]);
 		});
 
 		test("multiple with commas and weird spacing", () => {
@@ -204,7 +227,8 @@ describe("Modules parsing", () => {
 			const list = rawModulesToLists(modules);
 			expect(list[0]).toHaveLength(4);
 			expect(list[1]).toHaveLength(0);
-			expect(list[0]).toStrictEqual(["Icon1", "Icon2", "Icon3", "Icon4"]);
+			expect(list[0].map(m => m.name)).toStrictEqual(["Icon1", "Icon2", "Icon3", "Icon4"]);
+			expect(list[0].map(m => m.importName)).toStrictEqual(["Icon1", "Icon2", "Icon3", "Icon4"]);
 		});
 	});
 
@@ -216,7 +240,8 @@ describe("Modules parsing", () => {
 			const list = rawModulesToLists(modules);
 			expect(list[0]).toHaveLength(1);
 			expect(list[1]).toHaveLength(0);
-			expect(list[0]).toStrictEqual(["Icon1"]);
+			expect(list[0].map(m => m.name)).toStrictEqual(["Icon1"]);
+			expect(list[0].map(m => m.importName)).toStrictEqual(["Icon1"]);
 		});
 
 		test("multiple", () => {
@@ -228,7 +253,32 @@ describe("Modules parsing", () => {
 			const list = rawModulesToLists(modules);
 			expect(list[0]).toHaveLength(3);
 			expect(list[1]).toHaveLength(0);
-			expect(list[0]).toStrictEqual(["Icon1", "Icon2", "Icon3"]);
+			expect(list[0].map(m => m.name)).toStrictEqual(["Icon1", "Icon2", "Icon3"]);
+			expect(list[0].map(m => m.importName)).toStrictEqual(["Icon1", "Icon2", "Icon3"]);
+		});
+
+		test("single with alias", () => {
+			const modules = `
+				Icon1 as Icon2
+			`;
+			const list = rawModulesToLists(modules);
+			expect(list[0]).toHaveLength(1);
+			expect(list[1]).toHaveLength(0);
+			expect(list[0].map(m => m.name)).toStrictEqual(["Icon2"]);
+			expect(list[0].map(m => m.importName)).toStrictEqual(["Icon1"]);
+		});
+
+		test("multiple with aliases", () => {
+			const modules = `
+				Icon1 as Icon2,
+				Icon3,
+				Icon4 as Icon5
+			`;
+			const list = rawModulesToLists(modules);
+			expect(list[0]).toHaveLength(3);
+			expect(list[1]).toHaveLength(0);
+			expect(list[0].map(m => m.name)).toStrictEqual(["Icon2", "Icon3", "Icon5"]);
+			expect(list[0].map(m => m.importName)).toStrictEqual(["Icon1", "Icon3", "Icon4"]);
 		});
 
 		test("single with trailing comma", () => {
@@ -238,7 +288,8 @@ describe("Modules parsing", () => {
 			const list = rawModulesToLists(modules);
 			expect(list[0]).toHaveLength(1);
 			expect(list[1]).toHaveLength(0);
-			expect(list[0]).toStrictEqual(["Icon1"]);
+			expect(list[0].map(m => m.name)).toStrictEqual(["Icon1"]);
+			expect(list[0].map(m => m.importName)).toStrictEqual(["Icon1"]);
 		});
 
 		test("multiple with trailing comma", () => {
@@ -250,7 +301,8 @@ describe("Modules parsing", () => {
 			const list = rawModulesToLists(modules);
 			expect(list[0]).toHaveLength(3);
 			expect(list[1]).toHaveLength(0);
-			expect(list[0]).toStrictEqual(["Icon1", "Icon2", "Icon3"]);
+			expect(list[0].map(m => m.name)).toStrictEqual(["Icon1", "Icon2", "Icon3"]);
+			expect(list[0].map(m => m.importName)).toStrictEqual(["Icon1", "Icon2", "Icon3"]);
 		});
 
 		test("single with leading comma", () => {
@@ -261,7 +313,8 @@ describe("Modules parsing", () => {
 			const list = rawModulesToLists(modules);
 			expect(list[0]).toHaveLength(1);
 			expect(list[1]).toHaveLength(0);
-			expect(list[0]).toStrictEqual(["Icon1"]);
+			expect(list[0].map(m => m.name)).toStrictEqual(["Icon1"]);
+			expect(list[0].map(m => m.importName)).toStrictEqual(["Icon1"]);
 		});
 
 		test("multiple with commas and weird spacing", () => {
@@ -274,7 +327,8 @@ describe("Modules parsing", () => {
 			const list = rawModulesToLists(modules);
 			expect(list[0]).toHaveLength(4);
 			expect(list[1]).toHaveLength(0);
-			expect(list[0]).toStrictEqual(["Icon3", "Icon1", "Icon2", "Icon4"]);
+			expect(list[0].map(m => m.name)).toStrictEqual(["Icon3", "Icon1", "Icon2", "Icon4"]);
+			expect(list[0].map(m => m.importName)).toStrictEqual(["Icon3", "Icon1", "Icon2", "Icon4"]);
 		});
 	});
 });
@@ -400,9 +454,9 @@ describe("End-to-end", () => {
 		expect(transformed.code).eq(`
 		import type { One, Icon2 } from "lucide-svelte";
 		import Icon1 from "lucide-svelte/icons/icon-1";
-		import Icon3 as Icon4 from "lucide-svelte/icons/icon-3";
+		import Icon4 from "lucide-svelte/icons/icon-3";
 		import Icon5 from "lucide-svelte/icons/icon-5";
-		import A as B from "lucide-svelte/icons/a";
+		import B from "lucide-svelte/icons/a";
 		`);
 	});
 
@@ -463,7 +517,7 @@ describe("End-to-end", () => {
 		import Icon4 from "lucide-svelte/icons/icon-4"
 		import type { One } from "@lucide/svelte";
 		import Icon1 from "@lucide/svelte/icons/icon-1";
-		import Icon3 as Icon4 from "@lucide/svelte/icons/icon-3";
+		import Icon4 from "@lucide/svelte/icons/icon-3";
 		import Icon5 from "@lucide/svelte/icons/icon-5";
 		import * as All from "another-package";
 		`);
