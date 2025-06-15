@@ -2,7 +2,7 @@
 	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
 	"extends": ["config:recommended", ":disableDependencyDashboard", ":disablePeerDependencies"],
 	"labels": ["dependencies"],
-	"rangeStrategy": "bump",
+	"postUpdateOptions": ["pnpmDedupe"],
 	"packageRules": [
 		{
 			"matchManagers": ["github-actions", "npm"],

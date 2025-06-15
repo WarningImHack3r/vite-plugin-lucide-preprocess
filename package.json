@@ -1,6 +1,6 @@
 {
 	"name": "vite-plugin-lucide-preprocess",
-	"version": "1.3.0",
+	"version": "1.3.1",
 	"author": {
 		"url": "https://github.com/WarningImHack3r",
 		"name": "WarningImHack3r"
@@ -8,7 +8,7 @@
 	"license": "MIT",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/WarningImHack3r/vite-plugin-lucide-preprocess"
+		"url": "git+https://github.com/WarningImHack3r/vite-plugin-lucide-preprocess.git"
 	},
 	"keywords": [
 		"vite",
@@ -38,12 +38,12 @@
 		"vite": ">=5"
 	},
 	"devDependencies": {
-		"lucide-svelte": "^0.479.0",
-		"prettier": "^3.5.3",
-		"publint": "^0.3.8",
-		"typescript": "^5.8.2",
-		"vite": "^6.2.1",
-		"vitest": "^3.0.8"
+		"lucide-svelte": "^0.515.0",
+		"prettier": "^3.0.0",
+		"publint": "^0.3.0",
+		"typescript": "^5.0.0",
+		"vite": "^6.0.0",
+		"vitest": "^3.0.0"
 	},
 	"pnpm": {
 		"onlyBuiltDependencies": [
@@ -53,5 +53,5 @@
 	"main": "./dist/index.js",
 	"types": "./dist/index.d.ts",
 	"type": "module",
-	"packageManager": "pnpm@10.6.1"
+	"packageManager": "pnpm@10.12.1"
 }
