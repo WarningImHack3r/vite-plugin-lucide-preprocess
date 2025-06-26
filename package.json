@@ -53,5 +53,5 @@
 	"main": "./dist/index.js",
 	"types": "./dist/index.d.ts",
 	"type": "module",
-	"packageManager": "pnpm@10.12.1"
+	"packageManager": "pnpm@10.12.4"
 }
