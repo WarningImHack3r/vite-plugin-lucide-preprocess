@@ -89,7 +89,6 @@ export default defineConfig({
 The plugin optionally accepts an object with the following options:
 
 - `importMode` (default: `"esm"`): The import mode for CommonJS-compatible frameworks.
-
   - `"esm"`: Import the icons as ES modules.
   - `"cjs"`: Import the icons as CommonJS modules.
 
