@@ -1,4 +1,5 @@
 import renamedReplacementsModules from "./renamedReplacements.js";
+import MagicString from "magic-string";
 
 const ignoredPaths = ["/node_modules/", "/.svelte-kit/"];
 
@@ -95,39 +96,42 @@ export function plugin(options = defaultOptions) {
 		enforce: "pre",
 		transform: (code, path) => {
 			if (ignoredPaths.some(p => path.includes(p))) return;
+			const s = new MagicString(code);
+			s.replace(
+				importsMatcher,
+				/**
+				 * @param _ The whole matched string
+				 * @param initialSpacing {string} The spacing before the matched import statement
+				 * @param modulesStr {string} The imported icons as a raw string
+				 * @param quote {string} The quote used in the import statement (either ' or ")
+				 * @param importStyle {string} The method the icons are imported with
+				 * @param framework {string} The framework the icons are imported for
+				 * @param lineEnding {string} The end of the line of the matched import statement (often a semicolon)
+				 * @return The optimized import statement(s)
+				 */
+				(_, initialSpacing, modulesStr, quote, importStyle, framework, lineEnding) => {
+					const [modules, types] = rawModulesToLists(modulesStr);
+					const moduleImports = modules
+						.map(
+							m =>
+								`${initialSpacing}import ${m.name} from ${quote}${importStyle}${framework}${frameworkImportPath(
+									framework,
+									mergedOptions
+								)}${iconCompToDashed(m.importName)}${quote}${lineEnding.trimEnd()}`
+						)
+						.join(initialSpacing.includes("\n") ? "" : "\n");
+					const typesImport = `${initialSpacing}import type { ${types.join(", ")} } from ${quote}${importStyle}${framework}${quote}${lineEnding.trimEnd()}`;
+					return [
+						types.length ? typesImport : undefined,
+						modules.length ? moduleImports : undefined
+					]
+						.filter(Boolean)
+						.join(initialSpacing.includes("\n") ? "" : "\n");
+				}
+			);
 			return {
-				code: code.replace(
-					importsMatcher,
-					/**
-					 * @param _ The whole matched string
-					 * @param initialSpacing {string} The spacing before the matched import statement
-					 * @param modulesStr {string} The imported icons as a raw string
-					 * @param quote {string} The quote used in the import statement (either ' or ")
-					 * @param importStyle {string} The method the icons are imported with
-					 * @param framework {string} The framework the icons are imported for
-					 * @param lineEnding {string} The end of the line of the matched import statement (often a semicolon)
-					 * @return The optimized import statement(s)
-					 */
-					(_, initialSpacing, modulesStr, quote, importStyle, framework, lineEnding) => {
-						const [modules, types] = rawModulesToLists(modulesStr);
-						const moduleImports = modules
-							.map(
-								m =>
-									`${initialSpacing}import ${m.name} from ${quote}${importStyle}${framework}${frameworkImportPath(
-										framework,
-										mergedOptions
-									)}${iconCompToDashed(m.importName)}${quote}${lineEnding.trimEnd()}`
-							)
-							.join(initialSpacing.includes("\n") ? "" : "\n");
-						const typesImport = `${initialSpacing}import type { ${types.join(", ")} } from ${quote}${importStyle}${framework}${quote}${lineEnding.trimEnd()}`;
-						return [
-							types.length ? typesImport : undefined,
-							modules.length ? moduleImports : undefined
-						]
-							.filter(Boolean)
-							.join(initialSpacing.includes("\n") ? "" : "\n");
-					}
-				)
+				code: s.toString(),
+				map: s.generateMap({ hires: "boundary", source: path })
 			};
 		}
 	};
