@@ -6,6 +6,7 @@ import {
 	plugin,
 	rawModulesToLists
 } from "./plugin.js";
+import renamedReplacements from "./renamedReplacements.js";
 
 describe("Regex matching", () => {
 	test("single import statement", () => {
@@ -333,31 +334,32 @@ describe("Modules parsing", () => {
 	});
 });
 
-const conversionRegex = /^export \{ default as (\S+) } from ["'][^\/]+\/(\S+).svelte/gm;
+const modulesConversionRegex =
+	/^export \{ default as (\S+) } from ["'][^\/]+\/(\S+)\.[A-Za-z\d]+/gm;
+const aliasesConversionRegex =
+	/\/\/ (\S+) aliases\n[\S\s\n]+? as \S+ } from ["'].+\/(\S+)\.[A-Za-z\d]+/g;
 
 describe("Icon component name conversion", async () => {
 	const imports = await import("/node_modules/lucide-svelte/dist/icons/index.js?raw");
 	const aliasesImports = await import("/node_modules/lucide-svelte/dist/aliases/aliases.js?raw");
 
-	const modules = [...imports.default.matchAll(conversionRegex)];
-	const aliases = [...aliasesImports.default.matchAll(conversionRegex)]
-		.filter(alias => !modules.some(module => module[1] === alias[1]))
-		.map(alias => [alias[0], alias[1], alias[2].replace(/icons\//, "")]);
-	for (const module of modules) {
-		const component = module[1];
-		const dashedName = module[2];
-
+	const modules = [...imports.default.matchAll(modulesConversionRegex)];
+	test("Read modules should not be empty", () => {
+		expect(modules.length).toBeGreaterThan(0);
+	});
+	const aliases = [...aliasesImports.default.matchAll(aliasesConversionRegex)];
+	test("Read aliases should not be empty", () => {
+		expect(aliases.length).toBeGreaterThan(0);
+	});
+	for (const [_, component, dashedName] of modules) {
 		test(`Regular imports: ${component} -> ${dashedName}`, () => {
 			expect(iconCompToDashed(component)).eq(dashedName);
 		});
 	}
-	for (const alias of aliases) {
-		const component = alias[1];
-		const dashedName = alias[2];
-
+	for (const [_, component, dashedName] of aliases) {
 		// Rename the condition in the renaming script if you change the name of that test(s)!
-		test(`Alias imports: ${component} -> ${dashedName}`, () => {
-			expect(iconCompToDashed(component)).eq(dashedName);
+		test(`Alias imports: ${component} from ${dashedName}`, () => {
+			expect(renamedReplacements[dashedName] ?? dashedName).eq(iconCompToDashed(component));
 		});
 	}
 
@@ -367,13 +369,13 @@ describe("Icon component name conversion", async () => {
 		expect(dashed).toBe("thing");
 	});
 
-	test("*Icon suffix", () => {
-		const dashed = iconCompToDashed("Icon1Icon");
+	test("Lucide* prefix", () => {
+		const dashed = iconCompToDashed("LucideIcon1");
 		expect(dashed).toBe("icon-1");
 	});
 
-	test("Lucide* prefix", () => {
-		const dashed = iconCompToDashed("LucideIcon1");
+	test("*Icon suffix", () => {
+		const dashed = iconCompToDashed("Icon1Icon");
 		expect(dashed).toBe("icon-1");
 	});
 });
