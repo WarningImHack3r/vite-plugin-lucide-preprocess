@@ -33,6 +33,13 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           tag_name: v${{ steps.get_tag.outputs.tag }}
+          name: v${{ steps.get_tag.outputs.tag }} - Automated release
           body: |
             - Add support for newly renamed components in Lucide v${{ steps.get_lucide_version.outputs.lucide_version }}
+
+            > [!NOTE]
+            > This is [a fully-automated release](https://github.com/WarningImHack3r/vite-plugin-lucide-preprocess#auto-updater).
+            > Despite its content being manually checked after its release, it might be incorrect or
+            > potentially break parts of the compatibility with Lucide.  
+            > If your happen to notice any issue I might not be aware of or actively working on, please open an issue.
           token: ${{ secrets.WORKFLOW_PAT }}

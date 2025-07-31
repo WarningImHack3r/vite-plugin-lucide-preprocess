@@ -21,6 +21,7 @@ const failingMap = tests.testResults
 if (!failingMap.length) {
 	throw new Error("No test results found, likely a breaking change from Lucide?");
 }
+failingMap.sort((a, b) => a.wrongModule.localeCompare(b.wrongModule));
 
 console.log(
 	"{\n" +

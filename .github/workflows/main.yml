@@ -126,10 +126,10 @@ jobs:
       - name: Replace the map
         run: |
           map=$(bun --bun run scripts/renamings-map-from-test.js)
-          echo "export default $(echo $map)" > src/renamedReplacements.js
+          echo "export default $map" > src/renamedReplacements.js
 
-      - name: Run Prettier
-        run: pnpm prettier --write src/renamedReplacements.js
+      - name: Remove the output file
+        run: rm -f out.json || true
 
       - name: Upgrade Lucide
         run: pnpm up -L lucide-svelte
@@ -140,7 +140,7 @@ jobs:
           jq '.version |= (split(".") | .[2] = (. [2] | tonumber + 1) | join("."))' package.json > package.json.tmp
           mv package.json.tmp package.json
 
-      - name: Lint
+      - name: Formatting
         run: pnpm format
 
       - name: Commit and push the changes
