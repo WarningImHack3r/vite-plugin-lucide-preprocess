@@ -1,4 +1,4 @@
-name: Lint, Test, and Build
+name: Build, lint, and test
 
 on:
   push:
@@ -17,9 +17,9 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
-      - name: Set up PNPM
+      - name: Set up pnpm
         uses: pnpm/action-setup@v4
 
       - name: Set up Node.js
@@ -41,9 +41,9 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
-      - name: Set up PNPM
+      - name: Set up pnpm
         uses: pnpm/action-setup@v4
 
       - name: Set up Node.js
@@ -68,9 +68,9 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
-      - name: Set up PNPM
+      - name: Set up pnpm
         uses: pnpm/action-setup@v4
 
       - name: Set up Node.js
@@ -95,13 +95,13 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           ref: ${{ github.head_ref }}
           token: ${{ secrets.WORKFLOW_PAT }}
           fetch-depth: 0
 
-      - name: Set up PNPM
+      - name: Set up pnpm
         uses: pnpm/action-setup@v4
 
       - name: Set up Node.js
@@ -117,7 +117,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Empty replacements file
-        # This is necessary because we want to regenerate the whole map
+        # This is necessary because we want to regenerate the entire map
         run: echo "export default {};" > src/renamedReplacements.js
 
       - name: Create Vitest report
@@ -125,7 +125,7 @@ jobs:
 
       - name: Replace the map
         run: |
-          map=$(bun --bun run scripts/renamings-map-from-test.js)
+          map=$(bun --bun run scripts/renaming-map-from-test.js)
           echo "export default $map" > src/renamedReplacements.js
 
       - name: Remove the output file
@@ -135,7 +135,6 @@ jobs:
         run: pnpm up -L lucide-svelte
 
       - name: Bump the version in package.json
-        # Use jq to bump the version in package.json
         run: |
           jq '.version |= (split(".") | .[2] = (. [2] | tonumber + 1) | join("."))' package.json > package.json.tmp
           mv package.json.tmp package.json

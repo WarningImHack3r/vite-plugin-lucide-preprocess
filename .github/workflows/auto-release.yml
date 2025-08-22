@@ -19,7 +19,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Get tag
         id: get_tag
@@ -39,7 +39,6 @@ jobs:
 
             > [!NOTE]
             > This is [a fully-automated release](https://github.com/WarningImHack3r/vite-plugin-lucide-preprocess#auto-updater).
-            > Despite its content being manually checked after its release, it might be incorrect or
-            > potentially break parts of the compatibility with Lucide.  
-            > If your happen to notice any issue I might not be aware of or actively working on, please open an issue.
+            > Despite its content being manually checked after its release, it might be incorrect or potentially break some compatibility with Lucide.  
+            > If you happen to notice any issue I might not be aware of or actively working on, please open an issue.
           token: ${{ secrets.WORKFLOW_PAT }}
