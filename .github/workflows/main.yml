@@ -147,7 +147,7 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add src/renamedReplacements.js package.json pnpm-lock.yaml
-          git commit --amend -m "[release] Bump replacements map"
+          git commit -m "chore(release): update the replacements map"
           git checkout ${{ github.event.repository.default_branch }}
           git merge ${{ github.head_ref }}
           git push origin ${{ github.event.repository.default_branch }}:${{ github.event.repository.default_branch }}

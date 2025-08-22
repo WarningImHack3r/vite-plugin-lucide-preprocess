@@ -13,7 +13,7 @@ jobs:
   create-gh-release:
     name: Create GitHub Release
     runs-on: ubuntu-latest
-    if: github.event.commits[0].committer.name == 'github-actions[bot]' && startsWith(github.event.head_commit.message, '[release]')
+    if: github.event.commits[0].committer.name == 'github-actions[bot]' && startsWith(github.event.head_commit.message, 'chore(release):')
     permissions:
       contents: write
 
