@@ -58,6 +58,7 @@ export default {
 	"chevron-right-square": "square-chevron-right",
 	"chevron-up-circle": "circle-chevron-up",
 	"chevron-up-square": "square-chevron-up",
+	chrome: "chromium",
 	"circle-help": "circle-question-mark",
 	"circle-slashed": "circle-slash-2",
 	"clipboard-edit": "clipboard-pen",
