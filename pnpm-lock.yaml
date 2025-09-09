@@ -9,8 +9,8 @@ importers:
   .:
     devDependencies:
       lucide-svelte:
-        specifier: ^0.541.0
-        version: 0.541.0(svelte@5.38.2)
+        specifier: ^0.543.0
+        version: 0.543.0(svelte@5.38.2)
       magic-string:
         specifier: ^0.30.0
         version: 0.30.18
@@ -449,8 +449,8 @@ packages:
   loupe@3.2.1:
     resolution: {integrity: sha512-CdzqowRJCeLU72bHvWqwRBBlLcMEtIvGrlvef74kMnV2AolS9Y8xUv1I0U/MNAWMhBlKIoyuEgoJ0t/bbwHbLQ==}
 
-  lucide-svelte@0.541.0:
-    resolution: {integrity: sha512-Jk+LiOYDl62R/0nWkG1s5XL2k6LHmPq3wUfiJ6qtBhb8jGefB4PU10x5HJrAihwaKqVc2vH5wjKMELGjHJenEQ==}
+  lucide-svelte@0.543.0:
+    resolution: {integrity: sha512-ri4LXrtoUtm08fED5ZER+MRavMOOscBGnVStoaY5w80uo7OOgt0w6eS4P4H3jtLicpa5RUV+chPwY4JdEHraAA==}
     peerDependencies:
       svelte: ^3 || ^4 || ^5.0.0-next.42
 
@@ -943,7 +943,7 @@ snapshots:
 
   loupe@3.2.1: {}
 
-  lucide-svelte@0.541.0(svelte@5.38.2):
+  lucide-svelte@0.543.0(svelte@5.38.2):
     dependencies:
       svelte: 5.38.2
 
