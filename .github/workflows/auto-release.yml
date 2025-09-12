@@ -19,7 +19,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v5
         
-      - run: echo {{ github.event.head_commit.message }}
+      - run: echo ${{ github.event.head_commit.message }}
 
       - name: Get tag
         id: get_tag
