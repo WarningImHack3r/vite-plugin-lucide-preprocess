@@ -2,6 +2,8 @@ name: Auto Release
 
 on:
   push:
+    branches:
+      - main
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -11,7 +13,9 @@ jobs:
   create-gh-release:
     name: Create GitHub Release
     runs-on: ubuntu-latest
-    if: startsWith(github.event.head_commit.message, 'chore(release):')
+    if: github.event.commits[0].committer.name == 'github-actions[bot]' && startsWith(github.event.head_commit.message, 'chore(release):')
+    permissions:
+      contents: write
 
     steps:
       - name: Checkout
@@ -19,4 +23,22 @@ jobs:
 
       - name: Get tag
         id: get_tag
-        run: echo "tag=$(jq -r '.version' package.json)"
+        run: echo "tag=$(jq -r '.version' package.json)" >> "$GITHUB_OUTPUT"
+
+      - name: Get Lucide version
+        id: get_lucide_version
+        run: echo "lucide_version=$(jq -r '.devDependencies["lucide-svelte"] | sub("^[^0-9]*"; "")' package.json)" >> "$GITHUB_OUTPUT"
+
+      - name: Create release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.get_tag.outputs.tag }}
+          name: v${{ steps.get_tag.outputs.tag }} - Automated release
+          body: |
+            - Add support for newly renamed components in Lucide v${{ steps.get_lucide_version.outputs.lucide_version }}
+
+            > [!NOTE]
+            > This is [a fully-automated release](https://github.com/WarningImHack3r/vite-plugin-lucide-preprocess#auto-updater).
+            > Despite its content being manually checked after its release, it might be incorrect or potentially break some compatibility with Lucide.
+            > If you happen to notice any issue I might not be aware of or actively working on, please open an issue.
+          token: ${{ secrets.WORKFLOW_PAT }}
