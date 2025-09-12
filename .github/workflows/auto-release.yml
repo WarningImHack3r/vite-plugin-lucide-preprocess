@@ -2,9 +2,6 @@ name: Auto Release
 
 on:
   push:
-    branches:
-      - main
-  pull_request:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -18,7 +15,7 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v5
-        
+
       - run: echo ${{ github.event.head_commit.message }}
 
       - name: Get tag
