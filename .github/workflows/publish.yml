@@ -12,7 +12,7 @@ jobs:
   publish:
     name: Publish
     runs-on: ubuntu-latest
-    if: github.repository == "WarningImHack3r/vite-plugin-lucide-preprocess"
+    if: github.repository == 'WarningImHack3r/vite-plugin-lucide-preprocess'
     permissions:
       contents: read
       id-token: write
