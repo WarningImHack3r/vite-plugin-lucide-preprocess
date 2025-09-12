@@ -11,12 +11,11 @@ jobs:
   create-gh-release:
     name: Create GitHub Release
     runs-on: ubuntu-latest
+    if: startsWith(github.event.head_commit.message, 'chore(release):')
 
     steps:
       - name: Checkout
         uses: actions/checkout@v5
-
-      - run: echo ${{ github.event.head_commit.message }}
 
       - name: Get tag
         id: get_tag
