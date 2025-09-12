@@ -73,7 +73,7 @@ export const importsMatcher =
 
 /**
  * @typedef {Object} Options
- * @property {"cjs" | "esm"} [importMode="esm"] The import type for React
+ * @property {"cjs" | "esm"} [importMode="esm"] The import type for CJS-compatible frameworks
  */
 
 /**
