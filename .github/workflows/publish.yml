@@ -12,6 +12,7 @@ jobs:
   publish:
     name: Publish
     runs-on: ubuntu-latest
+    if: github.repository == "WarningImHack3r/vite-plugin-lucide-preprocess"
     permissions:
       contents: read
       id-token: write
@@ -36,6 +37,4 @@ jobs:
         run: pnpm build
 
       - name: Publish to NPM
-        run: pnpm publish --provenance --access public --no-git-checks
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: pnpm publish --no-git-checks
