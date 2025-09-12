@@ -39,6 +39,6 @@ jobs:
 
             > [!NOTE]
             > This is [a fully-automated release](https://github.com/WarningImHack3r/vite-plugin-lucide-preprocess#auto-updater).
-            > Despite its content being manually checked after its release, it might be incorrect or potentially break some compatibility with Lucide.
+            > Despite its content being manually checked after its release, it might be incorrect or potentially break some compatibility with Lucide.  
             > If you happen to notice any issue I might not be aware of or actively working on, please open an issue.
           token: ${{ secrets.WORKFLOW_PAT }}
