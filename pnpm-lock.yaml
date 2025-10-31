@@ -13,8 +13,8 @@ importers:
         version: 0.30.19
     devDependencies:
       lucide-svelte:
-        specifier: ^0.544.0
-        version: 0.544.0(svelte@5.38.10)
+        specifier: ^0.552.0
+        version: 0.552.0(svelte@5.38.10)
       prettier:
         specifier: ^3.0.0
         version: 3.6.2
@@ -450,8 +450,8 @@ packages:
   loupe@3.2.1:
     resolution: {integrity: sha512-CdzqowRJCeLU72bHvWqwRBBlLcMEtIvGrlvef74kMnV2AolS9Y8xUv1I0U/MNAWMhBlKIoyuEgoJ0t/bbwHbLQ==}
 
-  lucide-svelte@0.544.0:
-    resolution: {integrity: sha512-8kBxSivf8SJdEUJRHBpu9bRw0S/qfVK+Yfb92KQnRRBdP425RzT6aQfrIfZctG1oucPVTBQe1ZXgmth/3qVICg==}
+  lucide-svelte@0.552.0:
+    resolution: {integrity: sha512-zynJ64KOsuQG3I4tSqfvvl7Kc9x4mWkppbxsuyrbegQwma9HFhBp4aE6HuQNF4c3pS0AHWHki5CAMs5m3QXA5w==}
     peerDependencies:
       svelte: ^3 || ^4 || ^5.0.0-next.42
 
@@ -944,7 +944,7 @@ snapshots:
 
   loupe@3.2.1: {}
 
-  lucide-svelte@0.544.0(svelte@5.38.10):
+  lucide-svelte@0.552.0(svelte@5.38.10):
     dependencies:
       svelte: 5.38.10
 
