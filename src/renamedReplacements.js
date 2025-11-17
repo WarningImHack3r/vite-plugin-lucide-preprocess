@@ -110,6 +110,7 @@ export default {
 	"file-x-2": "file-x-corner",
 	filter: "funnel",
 	"filter-x": "funnel-x",
+	fingerprint: "fingerprint-pattern",
 	"folder-cog-2": "folder-cog",
 	"folder-edit": "folder-pen",
 	"fork-knife": "utensils",
