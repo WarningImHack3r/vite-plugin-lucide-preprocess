@@ -340,8 +340,8 @@ const aliasesConversionRegex =
 	/\/\/ (\S+) aliases\n[\S\s\n]+? as \S+ } from ["'].+\/(\S+)\.[A-Za-z\d]+/g;
 
 describe("Icon component name conversion", async () => {
-	const imports = await import("/node_modules/lucide-svelte/dist/icons/index.js?raw");
-	const aliasesImports = await import("/node_modules/lucide-svelte/dist/aliases/aliases.js?raw");
+	const imports = await import("/node_modules/@lucide/svelte/dist/icons/index.js?raw");
+	const aliasesImports = await import("/node_modules/@lucide/svelte/dist/aliases/aliases.js?raw");
 
 	const modules = [...imports.default.matchAll(modulesConversionRegex)];
 	test("Read modules should not be empty", () => {

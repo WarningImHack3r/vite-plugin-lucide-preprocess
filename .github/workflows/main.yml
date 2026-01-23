@@ -132,7 +132,7 @@ jobs:
         run: rm -f out.json || true
 
       - name: Upgrade Lucide
-        run: pnpm up -L lucide-svelte
+        run: pnpm up -L @lucide/svelte
 
       - name: Bump the version in package.json
         run: |

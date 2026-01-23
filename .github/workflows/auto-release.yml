@@ -27,7 +27,7 @@ jobs:
 
       - name: Get Lucide version
         id: get_lucide_version
-        run: echo "lucide_version=$(jq -r '.devDependencies["lucide-svelte"] | sub("^[^0-9]*"; "")' package.json)" >> "$GITHUB_OUTPUT"
+        run: echo "lucide_version=$(jq -r '.devDependencies["@lucide/svelte"] | sub("^[^0-9]*"; "")' package.json)" >> "$GITHUB_OUTPUT"
 
       - name: Create release
         uses: softprops/action-gh-release@v2
