@@ -41,7 +41,7 @@
 		"magic-string": "^0.30.0"
 	},
 	"devDependencies": {
-		"lucide-svelte": "^0.554.0",
+		"lucide-svelte": "^0.563.0",
 		"prettier": "^3.0.0",
 		"publint": "^0.3.0",
 		"typescript": "^5.0.0",
