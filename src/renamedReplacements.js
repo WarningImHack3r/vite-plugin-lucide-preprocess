@@ -111,6 +111,8 @@ export default {
 	filter: "funnel",
 	"filter-x": "funnel-x",
 	fingerprint: "fingerprint-pattern",
+	"flip-horizontal": "square-centerline-dashed-horizontal",
+	"flip-vertical": "square-centerline-dashed-vertical",
 	"folder-cog-2": "folder-cog",
 	"folder-edit": "folder-pen",
 	"fork-knife": "utensils",
