@@ -13,8 +13,8 @@ importers:
         version: 0.30.21
     devDependencies:
       '@lucide/svelte':
-        specifier: ^0.563.0
-        version: 0.563.1(svelte@5.48.0)
+        specifier: ^0.575.0
+        version: 0.575.0(svelte@5.48.0)
       prettier:
         specifier: ^3.0.0
         version: 3.8.1
@@ -205,8 +205,8 @@ packages:
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
 
-  '@lucide/svelte@0.563.1':
-    resolution: {integrity: sha512-Kt+MbnE5D9RsuI/csmf7M+HWxALe57x3A0DhQ8pPnnUpneh7zuldrYjlT+veWtk+tVnp5doQtaAAxLujzIlhBw==}
+  '@lucide/svelte@0.575.0':
+    resolution: {integrity: sha512-FEFp/0McZwsjBqh1Dn8H+UBm1yHFQYk+utuVMFDw57155+wz2XMoc1pw027ylCPzs+bi14UEXYKbekFhuJKtnw==}
     peerDependencies:
       svelte: ^5
 
@@ -736,7 +736,7 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.5
 
-  '@lucide/svelte@0.563.1(svelte@5.48.0)':
+  '@lucide/svelte@0.575.0(svelte@5.48.0)':
     dependencies:
       svelte: 5.48.0
 
