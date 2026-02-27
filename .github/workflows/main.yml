@@ -148,6 +148,7 @@ jobs:
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add src/renamedReplacements.js package.json pnpm-lock.yaml
           git commit --amend -m "chore(release): update the replacements map"
+          git rebase ${{ github.event.repository.default_branch }}
           git checkout ${{ github.event.repository.default_branch }}
           git merge ${{ github.head_ref }}
           git push origin ${{ github.event.repository.default_branch }}:${{ github.event.repository.default_branch }}
