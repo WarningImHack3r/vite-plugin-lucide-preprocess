@@ -1,9 +1,9 @@
 # vite-plugin-lucide-preprocess
 
-[![NPM Version](https://img.shields.io/npm/v/vite-plugin-lucide-preprocess)](https://www.npmjs.com/package/vite-plugin-lucide-preprocess?activeTab=versions)
-[![NPM Downloads](https://img.shields.io/npm/dw/vite-plugin-lucide-preprocess)](https://www.npmjs.com/package/vite-plugin-lucide-preprocess)
-[![NPM Type Definitions](https://img.shields.io/npm/types/vite-plugin-lucide-preprocess)](https://www.npmjs.com/package/vite-plugin-lucide-preprocess)
-[![NPM License](https://img.shields.io/npm/l/vite-plugin-lucide-preprocess)](LICENSE)
+[![NPM Version](https://npmx.dev/api/registry/badge/version/vite-plugin-lucide-preprocess)](https://www.npmx.dev/package/vite-plugin-lucide-preprocess#versions)
+[![NPM Downloads](https://npmx.dev/api/registry/badge/downloads-week/vite-plugin-lucide-preprocess)](https://www.npmx.dev/package/vite-plugin-lucide-preprocess)
+[![NPM Type Definitions](https://npmx.dev/api/registry/badge/types/vite-plugin-lucide-preprocess)](https://www.npmx.dev/package/vite-plugin-lucide-preprocess)
+[![NPM License](https://npmx.dev/api/registry/badge/license/vite-plugin-lucide-preprocess)](LICENSE)
 
 A [Vite](https://vite.dev) plugin to replace imports for [Lucide icons](https://lucide.dev).
 
