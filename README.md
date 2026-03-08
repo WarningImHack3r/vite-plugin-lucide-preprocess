@@ -5,11 +5,9 @@
 [![NPM Type Definitions](https://npmx.dev/api/registry/badge/types/vite-plugin-lucide-preprocess)](https://www.npmx.dev/package/vite-plugin-lucide-preprocess)
 [![NPM License](https://npmx.dev/api/registry/badge/license/vite-plugin-lucide-preprocess)](LICENSE)
 
-A [Vite](https://vite.dev) plugin to replace imports for [Lucide icons](https://lucide.dev).
+A [Vite](https://vite.dev) plugin to tree-shake your [Lucide icons](https://lucide.dev).
 
 ## What is this?
-
-### Motivation
 
 If you want to import Lucide icons in your project, you can (usually — depending on
 the package) use two methods:
