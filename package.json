@@ -56,7 +56,7 @@
 		"prettier": "^3.0.0",
 		"publint": "^0.3.0",
 		"typescript": "^5.0.0",
-		"vite": "^7.0.0",
+		"vite": "^8.0.0",
 		"vitest": "^4.0.0"
 	},
 	"pnpm": {
