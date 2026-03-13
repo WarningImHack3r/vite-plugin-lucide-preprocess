@@ -15,6 +15,11 @@
 		"vite",
 		"vite-plugin",
 		"lucide",
+		"tree-shaking",
+		"treeshaking",
+		"tree-shake",
+		"treeshake",
+		"imports",
 		"preprocessor"
 	],
 	"scripts": {
@@ -36,9 +41,9 @@
 		"!dist/**/*.spec.*"
 	],
 	"peerDependencies": {
-		"vite": ">=2",
+		"rolldown": ">=0.1",
 		"rollup": ">=1",
-		"rolldown": ">=0.1"
+		"vite": ">=2"
 	},
 	"peerDependenciesMeta": {
 		"rollup": {
