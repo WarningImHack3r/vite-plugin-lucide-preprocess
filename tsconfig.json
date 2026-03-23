@@ -13,9 +13,11 @@
 		"module": "NodeNext",
 		"outDir": "dist",
 		"sourceMap": true,
+		"noUnusedLocals": true,
 		"lib": ["ESNext"],
 		"declaration": true,
-		"declarationMap": true
+		"declarationMap": true,
+		"rootDir": "./src"
 	},
-	"include": ["src/**/*"]
+	"include": ["./src"]
 }

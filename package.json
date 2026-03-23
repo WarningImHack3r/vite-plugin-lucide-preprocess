@@ -7,6 +7,10 @@
 		"name": "WarningImHack3r"
 	},
 	"license": "MIT",
+	"homepage": "https://github.com/WarningImHack3r/vite-plugin-lucide-preprocess",
+	"bugs": {
+		"url": "https://github.com/WarningImHack3r/vite-plugin-lucide-preprocess/issues"
+	},
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/WarningImHack3r/vite-plugin-lucide-preprocess.git"
@@ -26,6 +30,8 @@
 		"dev": "tsc -w",
 		"build": "tsc",
 		"test": "vitest",
+		"typecheck": "tsc --noEmit",
+		"prepublishOnly": "pnpm run build",
 		"lint": "prettier --check . && publint",
 		"format": "prettier --write ."
 	},
@@ -36,9 +42,7 @@
 		}
 	},
 	"files": [
-		"dist",
-		"!dist/**/*.test.*",
-		"!dist/**/*.spec.*"
+		"dist"
 	],
 	"peerDependencies": {
 		"rolldown": ">=0.1",

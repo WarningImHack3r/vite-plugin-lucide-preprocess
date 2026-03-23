@@ -5,8 +5,8 @@ import {
 	importsMatcher,
 	plugin,
 	rawModulesToLists
-} from "./plugin.js";
-import renamedReplacements from "./renamedReplacements.js";
+} from "../src/plugin.js";
+import renamedReplacements from "../src/renamedReplacements.js";
 
 describe("Regex matching", () => {
 	test("single import statement", () => {
@@ -351,17 +351,15 @@ describe("Icon component name conversion", async () => {
 	test("Read aliases should not be empty", () => {
 		expect(aliases.length).toBeGreaterThan(0);
 	});
-	for (const [_, component, dashedName] of modules) {
-		test(`Regular imports: ${component} -> ${dashedName}`, () => {
-			expect(iconCompToDashed(component)).eq(dashedName);
-		});
-	}
-	for (const [_, component, dashedName] of aliases) {
-		// Rename the condition in the renaming script if you change the name of that test(s)!
-		test(`Alias imports: ${component} from ${dashedName}`, () => {
-			expect(renamedReplacements[dashedName] ?? dashedName).eq(iconCompToDashed(component));
-		});
-	}
+
+	test.for(modules)("Regular imports: $1 -> $2", ([_, component, dashedName]) => {
+		expect(iconCompToDashed(component)).eq(dashedName);
+	});
+
+	// Rename the condition in the renaming script if you change the name of that test(s)!
+	test.for(aliases)("Alias imports: $1 from $2", ([_, component, dashedName]) => {
+		expect(renamedReplacements[dashedName] ?? dashedName).eq(iconCompToDashed(component));
+	});
 
 	test("'As' import", () => {
 		const dashed = iconCompToDashed("Thing as Icon1");
