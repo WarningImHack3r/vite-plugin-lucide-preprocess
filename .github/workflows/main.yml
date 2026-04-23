@@ -29,7 +29,7 @@ jobs:
           cache: pnpm
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install
 
       - name: Build
         run: pnpm build
@@ -53,7 +53,7 @@ jobs:
           cache: pnpm
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install
 
       - name: Build
         run: pnpm build
@@ -80,7 +80,7 @@ jobs:
           cache: pnpm
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install
 
       - name: Test
         run: pnpm test
@@ -114,7 +114,7 @@ jobs:
         uses: oven-sh/setup-bun@v2 # it's also the fastest runtime and is 100% compatible with Node sooo 🤷‍♂️
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: pnpm install
 
       - name: Empty replacements file
         # This is necessary because we want to regenerate the entire map
