@@ -30,7 +30,7 @@ jobs:
         run: echo "lucide_version=$(jq -r '.devDependencies["@lucide/svelte"] | sub("^[^0-9]*"; "")' package.json)" >> "$GITHUB_OUTPUT"
 
       - name: Create release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           tag_name: v${{ steps.get_tag.outputs.tag }}
           name: v${{ steps.get_tag.outputs.tag }} - Automated release
