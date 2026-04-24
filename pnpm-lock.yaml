@@ -20,7 +20,7 @@ importers:
     devDependencies:
       '@lucide/svelte':
         specifier: ^1.9.0
-        version: 1.9.0(svelte@5.53.7(@typescript-eslint/types@8.57.1))
+        version: 1.11.0(svelte@5.53.7(@typescript-eslint/types@8.57.1))
       prettier:
         specifier: ^3.0.0
         version: 3.8.3
@@ -220,8 +220,8 @@ packages:
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
 
-  '@lucide/svelte@1.9.0':
-    resolution: {integrity: sha512-+5RmY0tqeuGGbiI2BnyDp1Ft/EP7AKReStHeFEKJ0mPcW1w51Tm41R2GvUfz0sGLJhmRhVAe2zKaTfqrcpJqqg==}
+  '@lucide/svelte@1.11.0':
+    resolution: {integrity: sha512-4I9b+RuxIf8OkGG883bIYDIXjqVOH0ClgrB0j+jI6CrzEziroEwxiubQwW2xKT3esdJcRVTtW9RtCQM9D+r+ew==}
     peerDependencies:
       svelte: ^5
 
@@ -988,7 +988,7 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.5
 
-  '@lucide/svelte@1.9.0(svelte@5.53.7(@typescript-eslint/types@8.57.1))':
+  '@lucide/svelte@1.11.0(svelte@5.53.7(@typescript-eslint/types@8.57.1))':
     dependencies:
       svelte: 5.53.7(@typescript-eslint/types@8.57.1)
 
