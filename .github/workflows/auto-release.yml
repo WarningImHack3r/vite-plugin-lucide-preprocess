@@ -20,6 +20,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v6
+        with:
+          persist-credentials: false
 
       - name: Get tag
         id: get_tag
@@ -30,15 +32,18 @@ jobs:
         run: echo "lucide_version=$(jq -r '.devDependencies["@lucide/svelte"] | sub("^[^0-9]*"; "")' package.json)" >> "$GITHUB_OUTPUT"
 
       - name: Create release
-        uses: softprops/action-gh-release@v3
-        with:
-          tag_name: v${{ steps.get_tag.outputs.tag }}
-          name: v${{ steps.get_tag.outputs.tag }} - Automated release
-          body: |
+        env:
+          GITHUB_TOKEN: ${{ secrets.WORKFLOW_PAT }}
+          tag: v${{ steps.get_tag.outputs.tag }}
+          notes: |
             - Add support for newly renamed components in Lucide v${{ steps.get_lucide_version.outputs.lucide_version }}
 
             > [!NOTE]
             > This is [a fully-automated release](https://github.com/WarningImHack3r/vite-plugin-lucide-preprocess#auto-updater).
             > Despite its content being manually checked after its release, it might be incorrect or potentially break some compatibility with Lucide.  
             > If you happen to notice any issue I might not be aware of or actively working on, please open an issue.
-          token: ${{ secrets.WORKFLOW_PAT }}
+        run: |
+          gh release create "$tag" \
+            --fail-on-no-commits
+            -t "$tag - Automated release" \
+            -n "$notes"

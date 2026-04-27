@@ -18,6 +18,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v6
+        with:
+          persist-credentials: false
 
       - name: Set up pnpm
         uses: pnpm/action-setup@v6
@@ -42,6 +44,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v6
+        with:
+          persist-credentials: false
 
       - name: Set up pnpm
         uses: pnpm/action-setup@v6
@@ -69,6 +73,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v6
+        with:
+          persist-credentials: false
 
       - name: Set up pnpm
         uses: pnpm/action-setup@v6
@@ -100,6 +106,7 @@ jobs:
           ref: ${{ github.head_ref }}
           token: ${{ secrets.WORKFLOW_PAT }}
           fetch-depth: 0
+          persist-credentials: false
 
       - name: Set up pnpm
         uses: pnpm/action-setup@v6
@@ -143,13 +150,15 @@ jobs:
         run: pnpm format
 
       - name: Commit and push the changes
+        env:
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add src/renamedReplacements.js package.json pnpm-lock.yaml
           git commit --amend -m "chore(release): update the replacements map"
-          git fetch origin ${{ github.event.repository.default_branch }}:${{ github.event.repository.default_branch }}
-          git rebase ${{ github.event.repository.default_branch }}
-          git checkout ${{ github.event.repository.default_branch }}
-          git merge ${{ github.head_ref }}
-          git push origin ${{ github.event.repository.default_branch }}:${{ github.event.repository.default_branch }}
+          git fetch origin ${DEFAULT_BRANCH}:${DEFAULT_BRANCH}
+          git rebase ${DEFAULT_BRANCH}
+          git checkout ${DEFAULT_BRANCH}
+          git merge ${GITHUB_HEAD_REF}
+          git push origin ${DEFAULT_BRANCH}:${DEFAULT_BRANCH}
