@@ -68,11 +68,6 @@
 		"vite": "^8.0.0",
 		"vitest": "^4.0.0"
 	},
-	"pnpm": {
-		"onlyBuiltDependencies": [
-			"esbuild"
-		]
-	},
 	"main": "./dist/index.js",
 	"types": "./dist/index.d.ts",
 	"type": "module",
