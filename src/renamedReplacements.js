@@ -239,6 +239,7 @@ export default {
 	verified: "badge-check",
 	"wallet-2": "wallet-minimal",
 	"wand-2": "wand-sparkles",
+	waves: "waves-horizontal",
 	"wrap-text": "text-wrap",
 	"x-circle": "circle-x",
 	"x-octagon": "octagon-x",
