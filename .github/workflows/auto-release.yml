@@ -39,11 +39,11 @@ jobs:
             - Add support for newly renamed components in Lucide v${{ steps.get_lucide_version.outputs.lucide_version }}
 
             > [!NOTE]
-            > This is [a fully-automated release](https://github.com/WarningImHack3r/vite-plugin-lucide-preprocess#auto-updater).
+            > This is [a fully automated release](https://github.com/WarningImHack3r/vite-plugin-lucide-preprocess#auto-updater).
             > Despite its content being manually checked after its release, it might be incorrect or potentially break some compatibility with Lucide.  
             > If you happen to notice any issue I might not be aware of or actively working on, please open an issue.
         run: |
           gh release create "$tag" \
-            --fail-on-no-commits
+            --fail-on-no-commits \
             -t "$tag - Automated release" \
             -n "$notes"
