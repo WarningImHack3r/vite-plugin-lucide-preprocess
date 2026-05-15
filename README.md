@@ -65,7 +65,7 @@ More information about the auto-updater can be found in WarningImHack3r/vite-plu
 Install the plugin with your package manager of choice:
 
 ```bash
-pnpm i -D vite-plugin-lucide-preprocess
+pnpm i vite-plugin-lucide-preprocess
 ```
 
 Then, add it to your `vite.config.js`/`.ts`:
