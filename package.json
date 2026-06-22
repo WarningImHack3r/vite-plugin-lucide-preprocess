@@ -1,7 +1,7 @@
 {
 	"name": "vite-plugin-lucide-preprocess",
 	"description": "A Vite plugin to tree-shake your Lucide icons.",
-	"version": "1.4.11",
+	"version": "1.5.0",
 	"author": {
 		"url": "https://github.com/WarningImHack3r",
 		"name": "WarningImHack3r"
