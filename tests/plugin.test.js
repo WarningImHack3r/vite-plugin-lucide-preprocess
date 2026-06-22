@@ -249,6 +249,15 @@ describe("Modules parsing", () => {
 			expect(list[0].map(m => m.name)).toStrictEqual(["Icon1", "Icon2", "Icon3", "Icon4"]);
 			expect(list[0].map(m => m.importName)).toStrictEqual(["Icon1", "Icon2", "Icon3", "Icon4"]);
 		});
+
+		test("multiple type imports", () => {
+			const modules = ` type A , type B,type C, type D`;
+			const list = rawModulesToLists(modules);
+			expect(list[0]).toHaveLength(0);
+			expect(list[1]).toHaveLength(4);
+			expect(list[1].map(m => m.name)).toStrictEqual(["A", "B", "C", "D"]);
+			expect(list[1].map(m => m.importName)).toStrictEqual(["A", "B", "C", "D"]);
+		});
 	});
 
 	describe("Multiline imports", () => {
@@ -289,7 +298,7 @@ describe("Modules parsing", () => {
 
 		test("multiple with aliases", () => {
 			const modules = `
-				Icon1 as Icon2,
+				Icon1  as Icon2,
 				Icon3,
 				Icon4 as Icon5
 			`;
@@ -348,6 +357,22 @@ describe("Modules parsing", () => {
 			expect(list[1]).toHaveLength(0);
 			expect(list[0].map(m => m.name)).toStrictEqual(["Icon3", "Icon1", "Icon2", "Icon4"]);
 			expect(list[0].map(m => m.importName)).toStrictEqual(["Icon3", "Icon1", "Icon2", "Icon4"]);
+		});
+
+		test("multiple intermangled types and imports with weird spacing and commas", () => {
+			const modules = `
+        Icon3,
+        ,type A,
+        type B ,
+        Icon5 ,
+			`;
+			const list = rawModulesToLists(modules);
+			expect(list[0]).toHaveLength(2);
+			expect(list[1]).toHaveLength(2);
+			expect(list[0].map(m => m.name)).toStrictEqual(["Icon3", "Icon5"]);
+			expect(list[0].map(m => m.importName)).toStrictEqual(["Icon3", "Icon5"]);
+			expect(list[1].map(m => m.name)).toStrictEqual(["A", "B"]);
+			expect(list[1].map(m => m.importName)).toStrictEqual(["A", "B"]);
 		});
 	});
 });
@@ -472,14 +497,14 @@ describe("End-to-end", () => {
 
 	test("single import with multiple types, aliases and icons", () => {
 		const code = `
-		import { type One, Icon1, type Icon2, Icon3 as Icon4, Icon5, A as B } from "lucide-svelte";
+		import { type One, Icon1, type Icon2 as  Thing, Icon3  as Icon4, Icon5, A as  B } from "lucide-svelte";
 		`;
 		const transformed = /** @type {import("vite").TransformResult} */ (
 			plugin().transform(code, "file.svelte")
 		);
 		expect(transformed).not.toBe(undefined);
 		expect(transformed.code).eq(`
-		import type { One, Icon2 } from "lucide-svelte";
+		import type { One, Icon2 as Thing } from "lucide-svelte";
 		import Icon1 from "lucide-svelte/icons/icon-1";
 		import Icon4 from "lucide-svelte/icons/icon-3";
 		import Icon5 from "lucide-svelte/icons/icon-5";

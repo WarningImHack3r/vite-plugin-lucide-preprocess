@@ -2,6 +2,7 @@ import renamedReplacementsModules from "./renamedReplacements.js";
 import MagicString from "magic-string";
 
 const ignoredPaths = ["/node_modules/", "/.svelte-kit/"];
+const TYPE_PREFIX = "type ";
 
 /** @typedef {{ name: string; importName: string }} Module */
 
@@ -9,7 +10,7 @@ const ignoredPaths = ["/node_modules/", "/.svelte-kit/"];
  * Converts a raw string of imported icons to a list of module names,
  * and a list of TypeScript types
  * @param rawModules {string} The raw string of imported icons
- * @return {[Module[], string[]]} A list containing a list of imported icons,
+ * @return {[Module[], Module[]]} A list containing a list of imported icons,
  * and a list of TypeScript types
  */
 export function rawModulesToLists(rawModules) {
@@ -19,12 +20,17 @@ export function rawModulesToLists(rawModules) {
 		.filter(m => !!m);
 	return [
 		raw
-			.filter(m => !m.startsWith("type "))
+			.filter(m => !m.startsWith(TYPE_PREFIX))
 			.map(m => {
 				const [original, newName] = m.split(" as ");
 				return { name: (newName ?? original).trim(), importName: original.trim() };
 			}),
-		raw.filter(m => m.startsWith("type ")).map(m => m.slice("type ".length))
+		raw
+			.filter(m => m.startsWith(TYPE_PREFIX))
+			.map(m => {
+				const [original, newName] = m.slice(TYPE_PREFIX.length).split(" as ");
+				return { name: (newName ?? original).trim(), importName: original.trim() };
+			})
 	];
 }
 
@@ -137,7 +143,12 @@ export function plugin(options = defaultOptions) {
 								)}${iconCompToDashed(m.importName)}${quote}${lineEnding.trimEnd()}`
 						)
 						.join(initialSpacing.includes("\n") ? "" : "\n");
-					const typesImport = `${initialSpacing}import type { ${types.join(", ")} } from ${quote}${importStyle}${framework}${quote}${lineEnding.trimEnd()}`;
+					const typesStr = types
+						.map(({ name, importName }) =>
+							name === importName ? name : `${importName} as ${name}`
+						)
+						.join(", ");
+					const typesImport = `${initialSpacing}import type { ${typesStr} } from ${quote}${importStyle}${framework}${quote}${lineEnding.trimEnd()}`;
 					return [
 						preserved.length ? preservedImports : undefined,
 						types.length ? typesImport : undefined,
