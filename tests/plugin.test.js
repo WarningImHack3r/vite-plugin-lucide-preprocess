@@ -205,8 +205,26 @@ describe("Modules parsing", () => {
 			expect(list[0].map(m => m.importName)).toStrictEqual(["Icon1"]);
 		});
 
+		test("single with alias and spaces", () => {
+			const modules = ` Icon1  as  Icon2 `;
+			const list = rawModulesToLists(modules);
+			expect(list[0]).toHaveLength(1);
+			expect(list[1]).toHaveLength(0);
+			expect(list[0].map(m => m.name)).toStrictEqual(["Icon2"]);
+			expect(list[0].map(m => m.importName)).toStrictEqual(["Icon1"]);
+		});
+
 		test("multiple with aliases", () => {
 			const modules = `Icon1 as Icon2,Icon3, Icon4 as Icon5 `;
+			const list = rawModulesToLists(modules);
+			expect(list[0]).toHaveLength(3);
+			expect(list[1]).toHaveLength(0);
+			expect(list[0].map(m => m.name)).toStrictEqual(["Icon2", "Icon3", "Icon5"]);
+			expect(list[0].map(m => m.importName)).toStrictEqual(["Icon1", "Icon3", "Icon4"]);
+		});
+
+		test("multiple with aliases and unusual spacing", () => {
+			const modules = `Icon1 as  Icon2,Icon3 , Icon4  as Icon5 `;
 			const list = rawModulesToLists(modules);
 			expect(list[0]).toHaveLength(3);
 			expect(list[1]).toHaveLength(0);
@@ -435,7 +453,7 @@ describe("End-to-end", () => {
 	});
 
 	test("single new import with single icon", () => {
-		const code = `import { Icon1 } from "@lucide/svelte";`;
+		const code = `import { Icon1  } from "@lucide/svelte";`;
 		const transformed = /** @type {import("vite").TransformResult} */ (
 			plugin().transform(code, "file.svelte")
 		);

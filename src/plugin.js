@@ -22,7 +22,7 @@ export function rawModulesToLists(rawModules) {
 			.filter(m => !m.startsWith("type "))
 			.map(m => {
 				const [original, newName] = m.split(" as ");
-				return { name: newName ?? original, importName: original };
+				return { name: (newName ?? original).trim(), importName: original.trim() };
 			}),
 		raw.filter(m => m.startsWith("type ")).map(m => m.slice("type ".length))
 	];
