@@ -9,6 +9,32 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  verify:
+    name: Verify
+    runs-on: ubuntu-latest
+    if: github.repository == 'WarningImHack3r/vite-plugin-lucide-preprocess'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - name: Get version
+        id: get_pkg_version
+        run: echo "version=$(jq -r '.version' package.json)" >> "$GITHUB_OUTPUT"
+
+      - name: Check version
+        env:
+          PACKAGE_JSON_VERSION: ${{ steps.get_pkg_version.outputs.version }}
+          EVENT_VERSION: ${{ github.event.release.tag_name }}
+        run: |
+          V_LESS_EVENT_VERSION=${EVENT_VERSION#v}
+          if [ "$PACKAGE_JSON_VERSION" != "$V_LESS_EVENT_VERSION" ]; then
+            echo "::error::Version mismatch: $PACKAGE_JSON_VERSION != $V_LESS_EVENT_VERSION; update your package.json version"
+            exit 1
+          fi
+
   publish:
     name: Publish
     runs-on: ubuntu-latest
