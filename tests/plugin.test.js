@@ -443,6 +443,15 @@ describe("End-to-end", () => {
 		expect(transformed.code).toBe(`import Icon1 from "@lucide/svelte/icons/icon-1";`);
 	});
 
+	test("single import with setLucideProps", () => {
+		const code = `import { setLucideProps } from "@lucide/svelte";`;
+		const transformed = /** @type {import("vite").TransformResult} */ (
+			plugin().transform(code, "file.svelte")
+		);
+		expect(transformed).not.toBe(undefined);
+		expect(transformed.code).toBe(`import { setLucideProps } from "@lucide/svelte";`);
+	});
+
 	test("single import with multiple types, aliases and icons", () => {
 		const code = `
 		import { type One, Icon1, type Icon2, Icon3 as Icon4, Icon5, A as B } from "lucide-svelte";
@@ -499,9 +508,10 @@ describe("End-to-end", () => {
 		import Named from "another-package";
 		import { Icon2 } from "lucide-react"
 		import { Thing2 } from "another-package";
+		import { Icon7, setLucideProps } from "lucide-react"
 		import type { Thing3 } from "lucide-react";
 		import Icon4 from "lucide-svelte/icons/icon-4"
-		import { type One, Icon1, Icon3 as Icon4, Icon5 } from "@lucide/svelte";
+		import { type One, Icon1, Icon3 as Icon6, Icon5 } from "@lucide/svelte";
 		import * as All from "another-package";
 		`;
 		const transformed = /** @type {import("vite").TransformResult} */ (
@@ -513,11 +523,13 @@ describe("End-to-end", () => {
 		import Named from "another-package";
 		import Icon2 from "lucide-react/dist/esm/icons/icon-2"
 		import { Thing2 } from "another-package";
+		import { setLucideProps } from "lucide-react"
+		import Icon7 from "lucide-react/dist/esm/icons/icon-7"
 		import type { Thing3 } from "lucide-react";
 		import Icon4 from "lucide-svelte/icons/icon-4"
 		import type { One } from "@lucide/svelte";
 		import Icon1 from "@lucide/svelte/icons/icon-1";
-		import Icon4 from "@lucide/svelte/icons/icon-3";
+		import Icon6 from "@lucide/svelte/icons/icon-3";
 		import Icon5 from "@lucide/svelte/icons/icon-5";
 		import * as All from "another-package";
 		`);

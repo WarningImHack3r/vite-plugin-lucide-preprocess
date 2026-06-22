@@ -24,7 +24,7 @@ export function rawModulesToLists(rawModules) {
 				const [original, newName] = m.split(" as ");
 				return { name: newName ?? original, importName: original };
 			}),
-		raw.filter(m => m.startsWith("type ")).map(m => m.slice(5))
+		raw.filter(m => m.startsWith("type ")).map(m => m.slice("type ".length))
 	];
 }
 
@@ -104,14 +104,31 @@ export function plugin(options = defaultOptions) {
 				 * @param initialSpacing {string} The spacing before the matched import statement
 				 * @param modulesStr {string} The imported icons as a raw string
 				 * @param quote {string} The quote used in the import statement (either ' or ")
-				 * @param importStyle {string} The method the icons are imported with
+				 * @param importStyle {string} The method the icons are imported with (either "@lucide/" or "lucide-")
 				 * @param framework {string} The framework the icons are imported for
 				 * @param lineEnding {string} The end of the line of the matched import statement (often a semicolon)
 				 * @return The optimized import statement(s)
 				 */
 				(_, initialSpacing, modulesStr, quote, importStyle, framework, lineEnding) => {
 					const [modules, types] = rawModulesToLists(modulesStr);
-					const moduleImports = modules
+					const [preserved, icons] = modules
+						.filter(({ importName }) => importName[0])
+						.reduce(
+							(acc, module) => {
+								if (module.importName[0] === module.importName[0].toLowerCase())
+									acc[0].push(module); // starts with lowercase = not an icon
+								else acc[1].push(module); // doesn't start with lowercase = icon
+								return acc;
+							},
+							[/** @type {typeof modules} */ ([]), /** @type {typeof modules} */ ([])]
+						);
+					const preservedStr = preserved
+						.map(({ name, importName }) =>
+							name === importName ? name : `${importName} as ${name}`
+						)
+						.join(", ");
+					const preservedImports = `${initialSpacing}import { ${preservedStr} } from ${quote}${importStyle}${framework}${quote}${lineEnding.trimEnd()}`;
+					const moduleImports = icons
 						.map(
 							m =>
 								`${initialSpacing}import ${m.name} from ${quote}${importStyle}${framework}${frameworkImportPath(
@@ -122,8 +139,9 @@ export function plugin(options = defaultOptions) {
 						.join(initialSpacing.includes("\n") ? "" : "\n");
 					const typesImport = `${initialSpacing}import type { ${types.join(", ")} } from ${quote}${importStyle}${framework}${quote}${lineEnding.trimEnd()}`;
 					return [
+						preserved.length ? preservedImports : undefined,
 						types.length ? typesImport : undefined,
-						modules.length ? moduleImports : undefined
+						icons.length ? moduleImports : undefined
 					]
 						.filter(Boolean)
 						.join(initialSpacing.includes("\n") ? "" : "\n");
