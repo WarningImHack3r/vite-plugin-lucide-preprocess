@@ -58,13 +58,13 @@
 		}
 	},
 	"dependencies": {
-		"magic-string": "^0.30.0"
+		"magic-string": "^1.0.0"
 	},
 	"devDependencies": {
 		"@lucide/svelte": "^1.14.0",
 		"prettier": "^3.0.0",
 		"publint": "^0.3.0",
-		"typescript": "^6.0.0",
+		"typescript": "^7.0.0",
 		"vite": "^8.0.0",
 		"vitest": "^4.0.0"
 	},
