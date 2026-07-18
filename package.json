@@ -58,7 +58,7 @@
 		}
 	},
 	"dependencies": {
-		"magic-string": "^1.0.0"
+		"magic-string": "^0.30.0 || ^1.0.0"
 	},
 	"devDependencies": {
 		"@lucide/svelte": "^1.14.0",
