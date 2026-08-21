@@ -143,7 +143,7 @@ jobs:
 
       - name: Bump the version in package.json
         run: |
-          jq '.version |= (split(".") | .[2] = (. [2] | tonumber + 1) | join("."))' package.json > package.json.tmp
+          jq '.version |= (split(".") | .[1] = (. [1] | tonumber + 1) | join("."))' package.json > package.json.tmp
           mv package.json.tmp package.json
 
       - name: Formatting
