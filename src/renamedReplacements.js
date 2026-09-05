@@ -230,6 +230,7 @@ export default {
 	"text-select": "square-dashed-text",
 	"text-selection": "square-dashed-text",
 	train: "tram-front",
+	"trash-2": "trash",
 	"tv-2": "tv-minimal",
 	unlock: "lock-open",
 	"unlock-keyhole": "lock-keyhole-open",
