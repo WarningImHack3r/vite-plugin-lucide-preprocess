@@ -13,6 +13,7 @@ export default {
 	"align-right": "text-align-end",
 	angry: "face-angry",
 	annoyed: "face-expressionless",
+	"archive-restore": "archive-arrow-up",
 	"area-chart": "chart-area",
 	"arrow-down-az": "arrow-down-a-z",
 	"arrow-down-circle": "circle-arrow-down",
