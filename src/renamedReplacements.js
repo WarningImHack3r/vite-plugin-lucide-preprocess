@@ -80,6 +80,7 @@ export default {
 	columns: "columns-2",
 	"columns-settings": "columns-3-cog",
 	"contact-2": "contact-round",
+	copyright: "circle-letter-c",
 	"curly-braces": "braces",
 	"divide-circle": "circle-divide",
 	"divide-square": "square-divide",
