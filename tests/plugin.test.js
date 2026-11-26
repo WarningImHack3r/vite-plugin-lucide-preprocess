@@ -6,7 +6,7 @@ import {
 	plugin,
 	rawModulesToLists
 } from "../src/plugin.js";
-import renamedReplacements from "../src/renamedReplacements.js";
+import renamedReplacements from "../src/renamedModules.js";
 
 describe("Regex matching", () => {
 	test("single import statement", () => {

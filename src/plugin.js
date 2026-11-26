@@ -1,4 +1,4 @@
-import renamedReplacementsModules from "./renamedReplacements.js";
+import renamedReplacementsModules from "./renamedModules.js";
 import MagicString from "magic-string";
 
 const ignoredPaths = ["/node_modules/", "/.svelte-kit/"];

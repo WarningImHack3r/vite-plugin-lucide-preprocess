@@ -125,15 +125,15 @@ jobs:
 
       - name: Empty replacements file
         # This is necessary because we want to regenerate the entire map
-        run: echo "export default {};" > src/renamedReplacements.js
+        run: echo "export default {};" > src/renamedModules.js
 
       - name: Create Vitest report
         run: pnpm vitest --reporter=json --outputFile=out.json || true
 
       - name: Replace the map
         run: |
-          map=$(bun --bun run scripts/renaming-map-from-test.js)
-          echo "export default $map" > src/renamedReplacements.js
+          map=$(bun --bun run scripts/replacements-from-tests.js)
+          echo "export default $map" > src/renamedModules.js
 
       - name: Remove the output file
         run: rm -f out.json || true
@@ -155,7 +155,7 @@ jobs:
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add src/renamedReplacements.js package.json pnpm-lock.yaml
+          git add src/renamedModules.js package.json pnpm-lock.yaml
           git commit --amend -m "chore(release): update the replacements map"
           git fetch origin ${DEFAULT_BRANCH}:${DEFAULT_BRANCH}
           git rebase ${DEFAULT_BRANCH}
