@@ -29,11 +29,10 @@
 	"scripts": {
 		"dev": "tsc -w",
 		"build": "tsc",
-		"test": "vitest",
 		"typecheck": "tsc --noEmit",
-		"prepublishOnly": "pnpm run build",
-		"lint": "prettier --check . && publint",
-		"format": "prettier --write ."
+		"prepublishOnly": "vp run build",
+		"lint": "vp fmt --check . && publint",
+		"prepare": "vp config"
 	},
 	"exports": {
 		".": {
@@ -62,11 +61,10 @@
 	},
 	"devDependencies": {
 		"@lucide/svelte": "^1.74.0",
-		"prettier": "^3.0.0",
 		"publint": "^0.3.0",
 		"typescript": "^7.0.0",
-		"vite": "^8.0.0",
-		"vitest": "^5.0.0"
+		"vite": "catalog:",
+		"vite-plus": "catalog:"
 	},
 	"main": "./dist/index.js",
 	"types": "./dist/index.d.ts",

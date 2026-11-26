@@ -50,11 +50,11 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Set up pnpm
-        uses: pnpm/setup@v3
+      - name: Set up vp
+        uses: voidzero-dev/setup-vp@v1.22.0
 
       - name: Build
-        run: pnpm build
+        run: vp run build
 
       - name: Publish to NPM
-        run: pnpm stage publish --no-git-checks
+        run: vp pm stage publish -- --no-git-checks

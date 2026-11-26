@@ -1,6 +1,11 @@
 {
 	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
-	"extends": ["config:recommended", ":disableDependencyDashboard", ":disablePeerDependencies"],
+	"extends": [
+		"config:recommended",
+		":disableDependencyDashboard",
+		":disablePeerDependencies",
+		"group:vitePlus"
+	],
 	"labels": ["dependencies"],
 	"postUpdateOptions": ["pnpmDedupe"],
 	"packageRules": [

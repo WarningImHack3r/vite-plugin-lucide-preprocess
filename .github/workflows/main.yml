@@ -21,11 +21,11 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Set up pnpm
-        uses: pnpm/setup@v3
+      - name: Set up vp
+        uses: voidzero-dev/setup-vp@v1.22.0
 
       - name: Build
-        run: pnpm build
+        run: vp run build
 
   lint:
     name: Lint
@@ -38,14 +38,14 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Set up pnpm
-        uses: pnpm/setup@v3
+      - name: Set up vp
+        uses: voidzero-dev/setup-vp@v1.22.0
 
       - name: Build
-        run: pnpm build
+        run: vp run build
 
       - name: Lint
-        run: pnpm lint
+        run: vp run lint
 
   test:
     name: Test
@@ -58,11 +58,11 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Set up pnpm
-        uses: pnpm/setup@v3
+      - name: Set up vp
+        uses: voidzero-dev/setup-vp@v1.22.0
 
       - name: Test
-        run: pnpm test
+        run: vp test
 
   test-fail:
     name: Test Fail
@@ -81,15 +81,15 @@ jobs:
           fetch-depth: 0
           persist-credentials: true # needed for later commit
 
-      - name: Set up pnpm
-        uses: pnpm/setup@v3
+      - name: Set up vp
+        uses: voidzero-dev/setup-vp@v1.22.0
 
       - name: Empty replacements file
         # This is necessary because we want to regenerate the entire map
         run: echo "export default {};" > src/renamedModules.js
 
       - name: Create Vitest report
-        run: pnpm vitest --reporter=json --outputFile=out.json || true
+        run: vp test --reporter=json --outputFile=out.json || true
 
       - name: Replace the map
         run: |
@@ -100,7 +100,7 @@ jobs:
         run: rm -f out.json || true
 
       - name: Upgrade Lucide
-        run: pnpm up -L @lucide/svelte
+        run: vp up -L @lucide/svelte
 
       - name: Bump the version in package.json
         run: |
@@ -108,7 +108,7 @@ jobs:
           mv package.json.tmp package.json
 
       - name: Formatting
-        run: pnpm format
+        run: vp fmt
 
       - name: Commit and push the changes
         env:
