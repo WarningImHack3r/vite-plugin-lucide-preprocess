@@ -22,16 +22,7 @@ jobs:
           persist-credentials: false
 
       - name: Set up pnpm
-        uses: pnpm/action-setup@v6
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v7
-        with:
-          node-version: latest
-          cache: pnpm
-
-      - name: Install dependencies
-        run: pnpm install
+        uses: pnpm/setup@v3
 
       - name: Build
         run: pnpm build
@@ -48,16 +39,7 @@ jobs:
           persist-credentials: false
 
       - name: Set up pnpm
-        uses: pnpm/action-setup@v6
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v7
-        with:
-          node-version: latest
-          cache: pnpm
-
-      - name: Install dependencies
-        run: pnpm install
+        uses: pnpm/setup@v3
 
       - name: Build
         run: pnpm build
@@ -77,16 +59,7 @@ jobs:
           persist-credentials: false
 
       - name: Set up pnpm
-        uses: pnpm/action-setup@v6
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v7
-        with:
-          node-version: latest
-          cache: pnpm
-
-      - name: Install dependencies
-        run: pnpm install
+        uses: pnpm/setup@v3
 
       - name: Test
         run: pnpm test
@@ -109,19 +82,7 @@ jobs:
           persist-credentials: true # needed for later commit
 
       - name: Set up pnpm
-        uses: pnpm/action-setup@v6
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v7
-        with:
-          node-version: latest
-          cache: pnpm
-
-      - name: Set up Bun # Bun is the only way I can run the script that generates the map with such an import statement with
-        uses: oven-sh/setup-bun@v2 # it's also the fastest runtime and is 100% compatible with Node sooo 🤷‍♂️
-
-      - name: Install dependencies
-        run: pnpm install
+        uses: pnpm/setup@v3
 
       - name: Empty replacements file
         # This is necessary because we want to regenerate the entire map
@@ -132,7 +93,7 @@ jobs:
 
       - name: Replace the map
         run: |
-          map=$(bun --bun run scripts/replacements-from-tests.js)
+          map=$(node scripts/replacements-from-tests.js)
           echo "export default $map" > src/renamedModules.js
 
       - name: Remove the output file
