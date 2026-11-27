@@ -31,8 +31,8 @@ importers:
         version: '@voidzero-dev/vite-plus-core@8.3.8001(publint@0.3.25)(typescript@7.0.2)(yaml@2.9.1)'
     devDependencies:
       '@lucide/svelte':
-        specifier: ^1.74.0
-        version: 1.74.0(svelte@5.53.7)
+        specifier: ^1.81.0
+        version: 1.81.0(svelte@5.53.7)
       publint:
         specifier: ^0.3.0
         version: 0.3.25
@@ -165,8 +165,8 @@ packages:
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
 
-  '@lucide/svelte@1.74.0':
-    resolution: {integrity: sha512-J9kteBGbntyvE+xIcpoqOcoOfuat0tFnGzOx+aj0NbydQlt5x+/ayRSwEK0iqaY3RTGavpthEx/l7PQiqT+crg==}
+  '@lucide/svelte@1.81.0':
+    resolution: {integrity: sha512-q8rljlyKNiZP6oYt4gQkUQQ1K3QsKHS/uCv7TjaRgxW8cY+S9i0+VW32DiH5RTDQgnlZBaZf2qklL1Dj/0J/qw==}
     peerDependencies:
       svelte: ^5
 
@@ -1666,7 +1666,7 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.6.0
 
-  '@lucide/svelte@1.74.0(svelte@5.53.7)':
+  '@lucide/svelte@1.81.0(svelte@5.53.7)':
     dependencies:
       svelte: 5.53.7
 

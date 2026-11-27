@@ -234,6 +234,7 @@ export default {
 	"power-circle": "circle-power",
 	"power-square": "square-power",
 	"printer-3-d": "printer-3d",
+	"rectangle-landscape-play": "rectangle-horizontal-play",
 	"rotate-3-d": "rotate-3d",
 	rows: "rows-2",
 	"scale-3-d": "scale-3d",
