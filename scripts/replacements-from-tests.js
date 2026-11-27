@@ -1,5 +1,5 @@
 import { EOL } from "node:os";
-import tests from "../out.json" with { type: "json" };;
+import tests from "../out.json" with { type: "json" };
 
 /**
  * Matches "AssertionError: expected 'thing-a' to equal 'thing-b'"
